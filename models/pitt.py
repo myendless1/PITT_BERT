@@ -290,7 +290,6 @@ class PhysicsInformedTokenTransformer(nn.Module):
         self.bert_model = bert_model
 
         self.embedding_linear = nn.Linear(500, 100, bias=False)
-        self.hidden_linear = nn.Linear(768, hidden_dim, bias=False)
 
         self.kh1_embedding = nn.Linear(hidden_dim, hidden_dim, bias=False)
         self.kh2_embedding = nn.Linear(hidden_dim, hidden_dim, bias=False)
@@ -372,7 +371,7 @@ class PhysicsInformedTokenTransformer(nn.Module):
         dx = x - values[:, -1, :].unsqueeze(-1)
 
         # Scale and shift the keys
-        keys = torch.reshape(keys, (128, 3, 500))
+        keys = torch.reshape(keys, (-1, 3, 500))
         input_ids = keys[:, 0].int()
         token_type_ids = keys[:, 1].int()
         attention_mask = keys[:, 2].int()
@@ -381,14 +380,13 @@ class PhysicsInformedTokenTransformer(nn.Module):
         # token_type_ids = torch.tensor([lst + [0] * (500 - len(lst)) for lst in token_type_ids])
         # attention_mask = torch.tensor([lst + [0] * (500 - len(lst)) for lst in attention_mask])
 
+        # Warning embedding layer before bert is not feasible
         bert_embedding = self.bert_model(input_ids=input_ids, attention_mask=attention_mask,
                                          token_type_ids=token_type_ids)
 
         bert_embedding = torch.tensor(bert_embedding['hidden_states'][0]).to(device)
 
-        hidden_layer_out = self.hidden_linear(bert_embedding)
-
-        token_embedding = torch.swapaxes(self.embedding_linear(torch.swapaxes(hidden_layer_out, 1, 2)), 1, 2)
+        token_embedding = torch.swapaxes(self.embedding_linear(torch.swapaxes(bert_embedding, 1, 2)), 1, 2)
 
         kh1 = token_embedding.clone()
         kh2 = token_embedding.clone()

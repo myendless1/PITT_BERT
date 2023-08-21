@@ -46,10 +46,10 @@ args:
     num_x: 100
     num_t: 100
     sim_time: 1000
-    num_samples: 10
+    num_samples: 1000
 
     # Transformer
-    hidden: 64
+    hidden: 128
     layers: 1
     heads: 1
     dropout: 0.05

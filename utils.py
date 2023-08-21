@@ -645,6 +645,482 @@ class TransformerOperatorDataset(Dataset):
                        self.grid[sim_num][..., np.newaxis]
 
 
+class TransformerOperatorDatasetBert(Dataset):
+    def __init__(self, f, filename,
+                 initial_step=10,
+                 saved_folder='./data/',
+                 reduced_resolution=1,
+                 reduced_resolution_t=1,
+                 reduced_batch=1,
+                 num_t=200,
+                 num_x=200,
+                 sim_time=-1,
+                 split="train",
+                 test_ratio=0.2,
+                 val_ratio=0.2,
+                 num_samples=None,
+                 return_text=False,
+                 rollout_length=10,
+                 train_style='fixed_future',
+                 ssl=False, forcing=False, seed=0,
+                 ):
+        """
+
+        :param filename: filename that contains the dataset
+        :type filename: STR
+        :param filenum: array containing indices of filename included in the dataset
+        :type filenum: ARRAY
+        :param initial_step: time steps taken as initial condition, defaults to 10
+        :type initial_step: INT, optional
+
+        """
+
+        # Define path to files
+        self.file_path = os.path.abspath(f.filename)
+        # self.file_path = os.path.abspath(saved_folder + filename + ".h5")
+        self.return_text = return_text
+        self.train_style = train_style
+        self.ssl = ssl
+        self.forcing = forcing
+
+        self.tokenizer = BertTokenizer.from_pretrained('bert-base-uncased')
+
+        # Extract list of seeds
+        print("\nSEED: {}".format(seed))
+        np.random.seed(seed)
+        if filename != "all":
+            data_list = []
+            for key in f.keys():
+                if filename in key:
+                    data_list.append(key)
+            np.random.shuffle(data_list)
+        else:
+            # data_list = list([key for key in f.keys() if("KdV" not in key))
+            data_list = [key for key in f.keys()]
+            np.random.shuffle(data_list)
+
+        self.data_list = data_list
+
+        # Get target split. Seeding is required to make this reproducible.
+        # This splits each run, lets try a better shuffle
+        if num_samples is not None:
+            data_list = data_list[:num_samples]
+        train_idx = int(len(data_list) * (1 - test_ratio - val_ratio))
+        val_idx = int(len(data_list) * (1 - test_ratio))
+        # print(train_idx, val_idx)
+        # raise
+
+        # Make sure no data points occur in two splits
+        assert not (bool(set(self.data_list[:train_idx]) & \
+                         set(self.data_list[train_idx:val_idx])) | \
+                    bool(set(self.data_list[val_idx:]) & \
+                         set(self.data_list[train_idx:])) & \
+                    bool(set(self.data_list[val_idx:]) & \
+                         set(self.data_list[train_idx:val_idx])))
+
+        if split == "train":
+            # print("TRAINING DATA")
+            self.data_list = np.array(data_list[:train_idx])
+            # print(self.data_list)
+        elif split == "val":
+            # print("VALIDATION DATA")
+            self.data_list = np.array(data_list[train_idx:val_idx])
+            # print(self.data_list)
+        elif split == "test":
+            # print("TESTING DATA")
+            self.data_list = np.array(data_list[val_idx:])
+            # print(self.data_list)
+        else:
+            raise ValueError("Select train, val, or test split. {} is invalid.".format(split))
+        # print(self.data_list)
+        # raise
+
+        # Time steps used as initial conditions
+        self.initial_step = initial_step
+        self.rollout_length = rollout_length
+
+        self.WORDS = ['(', ')', '+', '-', '*', '/', 'Derivative', 'Sum', 'j', 'A_j', 'l_j',
+                      'omega_j', 'phi_j', 'sin', 't', 'u', 'x', 'dirichlet', 'neumann',
+                      "None", '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10^',
+                      # 'E', ',', '.', '&']
+                      'E', 'e', ',', '.', '&']
+        self.word2id = {w: i for i, w in enumerate(self.WORDS)}
+        self.id2word = {i: w for i, w in enumerate(self.WORDS)}
+        self.num_t = num_t
+        self.num_x = num_x
+        self.name = "pde_{}-{}".format(self.num_t, self.num_x)
+
+        self.h5_file = h5py.File(self.file_path, 'r')
+        self.sim_time = sim_time
+
+        self.data = []
+        self.grid = []
+        self.time = []
+        self.tokens = []
+        self.available_idxs = []
+        # print(len(self.data_list))
+        # raise
+        print("Gathering data...")
+        for i in tqdm(range(len(self.data_list))):
+            # print(self.data_list[i])
+            seed_group = self.h5_file[self.data_list[i]]
+            self.data.append(seed_group[self.name][0])
+
+            if self.train_style == 'next_step':
+                # idxs = np.arange(0, len(seed_group[self.name][0]))[self.initial_step:]
+                idxs = np.arange(0, len(seed_group[self.name][0]))[self.initial_step:self.sim_time]
+            elif self.train_style == 'arbitrary_step':
+                # idxs = np.arange(0, len(seed_group[self.name][0]))[self.initial_step:self.sim_time]
+                idxs = np.arange(0, len(seed_group[self.name][0]))[self.initial_step:self.sim_time + self.initial_step]
+                # idxs = np.arange(0, len(seed_group[self.name][0]))[:self.sim_time+self.initial_step]
+
+            elif self.train_style == 'rollout':
+                length = len(seed_group[self.name][0])
+                idxs = np.arange(0, length)[self.initial_step:length - self.rollout_length]
+            elif self.train_style == 'fixed_future':
+                idxs = np.array([i])
+                # idxs = np.arange(0, len(seed_group[self.name][0]))[self.initial_step:]
+                # idxs = np.arange(0, len(seed_group[self.name][0]))[self.initial_step:self.sim_time]
+
+            if len(self.available_idxs) != 0 and self.train_style != 'fixed_future':
+                # Needs to make sure it wraps all the way back around...
+                # TODO Make sure this is right
+                # print(self.available_idxs[-1])
+                idxs += self.available_idxs[-1] + 1 if (self.train_style == 'next_step') else \
+                    self.available_idxs[-1] + 1 + self.rollout_length if (self.train_style == 'rollout') else \
+                        self.available_idxs[-1] + 100 - self.sim_time  # self.available_idxs[-1] + 1
+            self.available_idxs.extend(idxs)
+
+            self.grid.append(np.array(seed_group[self.name].attrs["x"], dtype='f'))
+            if self.return_text:
+                self.tokens.append(list(seed_group[self.name].attrs['encoded_tokens']))
+                self.time.append(seed_group[self.name].attrs['t'])
+
+        self.data = torch.Tensor(np.array(self.data)).to(device=device)  # , dtype=torch.float).cuda()
+        self.grid = torch.Tensor(np.array(self.grid)).to(device=device)  # .cuda()
+        self.h5_file.close()
+        # print(self.available_idxs)
+        # raise
+
+        print("\nNUMBER OF SAMPLES: {}".format(len(self.available_idxs)))
+
+        def forcing_term(x, t, As, ls, phis, omegas):
+            return np.sum(
+                As[i] * torch.sin(2 * np.pi / 16. * ls[i] * x + omegas[i] * t + phis[i]) for i in range(len(As)))
+
+        # Not suitable for autoregressive training
+        if self.train_style == 'fixed_future':
+            time_included_tokens = []
+            # self.all_tokens = torch.empty(len(self.available_idxs), 500).to(device=device)#.cuda()
+            # print(self.data.shape)
+            self.all_tokens = np.empty(self.data.shape[0], self.data.shape[1], 1500)
+            # print(self.available_idxs)
+            # raise
+            for idx, token in tqdm(enumerate(self.tokens)):
+                time_tokens = self._encode_tokens("&" + str(self.time[idx][self.sim_time]))
+                while len(time_tokens) + len(self.tokens[idx]) < 490:  # Padding
+                    time_tokens.append(len(self.WORDS))
+                time_included_tokens.append(np.append(self.tokens[idx], time_tokens))
+            self.time_included_tokens = torch.Tensor(np.array(time_included_tokens)).to(device=device)  # .cuda()#.int()
+            self.all_tokens = torch.empty(len(self.available_idxs), 500).to(device=device)  # .cuda()
+
+            for idx, sim_idx in tqdm(enumerate(self.available_idxs)):
+                sim_num = sim_idx // self.data.shape[1]  # Get simulation number
+                sim_time = sim_idx % self.data.shape[1]  # Get time from that simulation
+
+                # I can precompute all of this... which would increase memory but decrease compute time
+                # slice_tokens = self._encode_tokens("&" + str(self.time[sim_num][sim_time]))
+                slice_tokens = self._encode_tokens("&" + str(self.time[sim_num][self.sim_time]))
+                # print(slice_tokens)
+                return_tokens = torch.Tensor(self.tokens[sim_num].copy())
+
+                # TODO: Maybe put this back
+                return_tokens = torch.cat((return_tokens, torch.Tensor(slice_tokens)))
+                return_tokens = torch.cat((return_tokens, torch.Tensor([len(self.WORDS)] * (490 - len(return_tokens)))))
+
+                # Add commas to l values
+                split_tokens = list(np.argwhere(return_tokens == 35)[0])
+                insert_tokens = return_tokens[split_tokens[6]:split_tokens[7] + 1]
+                insert_tokens = torch.Tensor((insert_tokens[0],
+                                              insert_tokens[1], torch.tensor(33),
+                                              insert_tokens[2], torch.tensor(33),
+                                              insert_tokens[3], torch.tensor(33),
+                                              insert_tokens[4], torch.tensor(33),
+                                              insert_tokens[5], torch.tensor(33))
+                                             )
+                return_tokens = torch.cat((return_tokens[:split_tokens[6]], insert_tokens,
+                                           return_tokens[split_tokens[7]:]))
+
+                return_tokens = torch.cat((return_tokens, torch.Tensor([len(self.WORDS)] * (500 - len(return_tokens)))))
+                self.all_tokens[idx] = return_tokens.to(device=device)  # .cuda()
+
+        elif self.train_style in ['next_step', 'arbitrary_step'] and self.return_text:
+            # Create array of all legal encodings, pdes, and data
+            self.all_tokens = np.empty((len(self.available_idxs), 1500))  # .cuda()
+
+            if self.forcing:
+                self.forcing_terms = []
+                self.times = np.empty(len(self.available_idxs))
+
+            print("Processing data...")
+            # print(self.available_idxs)
+            # raise
+            for idx, sim_idx in tqdm(enumerate(self.available_idxs)):
+                # sim_idx = self.available_idxs[idx]      # Get valid prestored index
+                sim_num = sim_idx // self.data.shape[1]  # Get simulation number
+                sim_time = sim_idx % self.data.shape[1]  # Get time from that simulation
+                if self.return_text:
+                    # TODO modify time token if necessary
+                    slice_tokens_input_ids = self.tokenizer("&" + str(self.time[sim_num][sim_time]))['input_ids'][1:]
+                    slice_tokens_token_type_ids = self.tokenizer("&" + str(self.time[sim_num][sim_time]))[
+                                                      'token_type_ids'][1:]
+                    slice_tokens_attention_mask = self.tokenizer("&" + str(self.time[sim_num][sim_time]))[
+                                                      'attention_mask'][1:]
+                    slice_tokens = [slice_tokens_input_ids, slice_tokens_token_type_ids,
+                                    slice_tokens_attention_mask]
+                    self.tokens[sim_num] = [self.tokens[sim_num][0][:-1], self.tokens[sim_num][1][:-1],
+                                            self.tokens[sim_num][2][:-1]]
+                    return_tokens = np.concatenate((self.tokens[sim_num], slice_tokens), axis=1)
+
+                    # TODO: Maybe put this back
+                    # Add commas to l values
+                    # split_tokens = list(np.argwhere(return_tokens.cpu() == 35)[0])
+                    # insert_tokens = return_tokens[split_tokens[6]:split_tokens[7] + 1].cpu()
+                    # insert_tokens = torch.Tensor((insert_tokens[0],
+                    #                               insert_tokens[1], torch.tensor(33),
+                    #                               insert_tokens[2], torch.tensor(33),
+                    #                               insert_tokens[3], torch.tensor(33),
+                    #                               insert_tokens[4], torch.tensor(33),
+                    #                               insert_tokens[5], torch.tensor(33))
+                    #                              ).cpu()
+                    # return_tokens = torch.cat((return_tokens[:split_tokens[6]].cpu(), insert_tokens,
+                    #                            return_tokens[split_tokens[7]:].cpu()))  # .cuda()
+
+                    # Recreate forcing term and save as a lambda function
+                    # if (self.forcing):
+                    #     split_tokens = list(np.argwhere(return_tokens == 35)[0])
+                    #     As = return_tokens[split_tokens[4]:split_tokens[5]][1:]
+                    #     omegas = return_tokens[split_tokens[5]:split_tokens[6]][1:]
+                    #     ls = return_tokens[split_tokens[6]:split_tokens[7]][1:]
+                    #     phis = return_tokens[split_tokens[7]:split_tokens[8]][1:]
+                    #
+                    #     # Split by commas
+                    #     A_splits = torch.cat((torch.tensor([0]), torch.argwhere(As == 33.)[:, 0]))
+                    #     A_vals = [As[s + 1:s + 16] if (s != 0) else As[s:s + 15] for s in A_splits][:-1]
+                    #
+                    #     omega_splits = torch.cat((torch.tensor([0]), torch.argwhere(omegas == 33.)[:, 0]))
+                    #     omega_vals = [omegas[s + 1:s + 16] if (s != 0) else omegas[s:s + 15] for s in omega_splits][:-1]
+                    #
+                    #     l_splits = torch.cat((torch.tensor([0]), torch.argwhere(ls == 33.)[:, 0]))[:-1]
+                    #     l_vals = [ls[s + 1] if (s != 0) else ls[s] for s in l_splits]
+                    #
+                    #     phi_splits = torch.cat((torch.tensor([0]), torch.argwhere(phis == 33.)[:, 0]))
+                    #     phi_vals = [phis[s + 1:s + 16] if (s != 0) else phis[s:s + 15] for s in phi_splits][:-1]
+                    #
+                    #     # Convert each one to a float
+                    #     A_num = []
+                    #     for A in A_vals:
+                    #         if (A[-1] == 33):
+                    #             A_num.append(
+                    #                 float(''.join([self.id2word[int(w)] for w in A[:-1] if (w < len(self.WORDS))])))
+                    #         else:
+                    #             try:
+                    #                 A_num.append(
+                    #                     float(''.join([self.id2word[int(w)] for w in A if (w < len(self.WORDS))])))
+                    #             except ValueError:  # Catches like one case
+                    #                 print("FOUND AN ERROR")
+                    #                 A_num.append(
+                    #                     float(''.join([self.id2word[int(w)] for w in A[:-2] if (w < len(self.WORDS))])))
+                    #     omega_num = []
+                    #     for omega in omega_vals:
+                    #         if (omega[-1] == 33):
+                    #             omega_num.append(
+                    #                 float(''.join([self.id2word[int(w)] for w in omega[:-1] if (w < len(self.WORDS))])))
+                    #         else:
+                    #             omega_num.append(
+                    #                 float(''.join([self.id2word[int(w)] for w in omega if (w < len(self.WORDS))])))
+                    #     l_num = []
+                    #     for l in l_vals:
+                    #         l_num.append(float(''.join([self.id2word[int(w)] for w in [l] if (w < len(self.WORDS))])))
+                    #     phi_num = []
+                    #     for phi in phi_vals:
+                    #         if (phi[-1] == 33):
+                    #             phi_num.append(
+                    #                 float(''.join([self.id2word[int(w)] for w in phi[:-1] if (w < len(self.WORDS))])))
+                    #         else:
+                    #             phi_num.append(
+                    #                 float(''.join([self.id2word[int(w)] for w in phi if (w < len(self.WORDS))])))
+                    #
+                    #     # def forcing_term(x, t, As, ls, phis, omegas):
+                    #     ft = lambda x, t: forcing_term(x, t, A_num, l_num, phi_num, omega_num)
+                    #     # print(ft)
+                    #
+                    #     self.forcing_terms.append(ft)
+                    #     self.times[idx] = float(
+                    #         ''.join([self.id2word[int(w)] for w in slice_tokens[1:] if (w < len(self.WORDS))]))
+                    #
+                    # return_tokens = torch.cat(
+                    #     (return_tokens, torch.Tensor([len(self.WORDS)] * (500 - len(return_tokens))).cpu()))
+
+                    # TODO sep_token or zero
+                    return_tokens = np.concatenate((return_tokens,
+                                                    [[0] * (500 - len(return_tokens[0])) for i
+                                                     in range(3)]),
+                                                   axis=1)
+                    return_tokens = np.reshape(return_tokens, (1, -1))
+                    # torch.cat((return_tokens.cpu(),torch.tensor([[self.tokenizer.sep_token_id] * (500 - len(return_tokens[0]))for i in range(3)]).cpu()))
+                    self.all_tokens[idx] = torch.tensor(return_tokens).to(device=device)  # .cuda()
+                    # print(self.all_tokens[idx])
+
+        if self.return_text:
+            self.all_tokens = self.all_tokens  # .cuda()
+        self.time = torch.Tensor(self.time).to(device=device)
+        self.data = self.data.cuda()
+        self.grid = self.grid.cuda()
+
+    def _encode_tokens(self, all_tokens):
+        encoded_tokens = []
+        num_concat = 0
+        for i in range(len(all_tokens)):
+            try:  # All the operators, bcs, regular symbols
+                encoded_tokens.append(self.word2id[all_tokens[i]])
+                if all_tokens[i] == "&":  # 5 concatenations before we get to lists of sampled values
+                    num_concat += 1
+            except KeyError:  # Numerical values
+                if isinstance(all_tokens[i], str):
+                    for v in all_tokens[i]:
+                        try:
+                            encoded_tokens.append(self.word2id[v])
+                        except KeyError:
+                            print(all_tokens)
+                            raise
+                    if num_concat >= 5:  # We're in a list of sampled parameters
+                        encoded_tokens.append(self.word2id[","])
+                else:
+                    raise KeyError("Unrecognized token: {}".format(all_tokens[i]))
+
+        return encoded_tokens
+
+    def __len__(self):
+        if self.train_style == 'fixed_future':
+            return len(self.data_list)
+        elif self.train_style in ['next_step', 'arbitrary_step']:
+            return len(self.available_idxs)
+        elif self.train_style == 'rollout':
+            return len(self.available_idxs)
+
+    def __getitem__(self, idx):
+        '''
+        idx samples the file.
+        Need to figure out a way to sample the snapshots within the file...
+        '''
+        # print("\n\nHERE\n\n")
+        # print("\nHERE\n")
+        # Everything is precomputed
+        if (self.train_style == 'fixed_future'):
+            if (self.return_text):
+                return self.data[idx][:self.initial_step], \
+                       self.data[idx][self.sim_time][..., np.newaxis], \
+                       self.grid[idx], \
+                       self.all_tokens[idx], \
+                       self.time[idx][self.sim_time]
+            else:
+                return self.data[idx][..., :self.initial_step, :], \
+                       self.data[idx][self.sim_time], \
+                       self.grid[udx][self.sim_time]
+
+        # Need to slice according to available data
+        elif (self.train_style == 'next_step'):
+            sim_idx = self.available_idxs[idx]  # Get valid prestored index
+            sim_num = sim_idx // self.data.shape[1]  # Get simulation number
+            sim_time = sim_idx % self.data.shape[1]  # Get time from that simulation
+
+            if (self.return_text):
+                return self.data[sim_num][sim_time - self.initial_step:sim_time], \
+                       self.data[sim_num][sim_time][..., np.newaxis], \
+                       self.grid[sim_num], \
+                       self.all_tokens[idx], \
+                       self.time[sim_num][sim_time] - self.time[sim_num][sim_time - 1]  # , \
+            else:
+                if (sim_time == 0):
+                    raise ValueError("WHOOPSIE")
+                return self.data[sim_num][sim_time - self.initial_step:sim_time], \
+                       self.data[sim_num][sim_time][np.newaxis], \
+                       self.grid[sim_num][np.newaxis]
+
+        elif (self.train_style == 'arbitrary_step'):
+            sim_idx = self.available_idxs[idx]  # Get valid prestored index
+            # sim_idx = idx      # Get valid prestored index
+            sim_num = sim_idx // self.data.shape[1]  # Get simulation number
+            sim_time = sim_idx % self.data.shape[1]  # Get time from that simulation
+
+            if (self.return_text):
+                if (self.forcing):
+                    return self.data[sim_num][0], \
+                           self.data[sim_num][sim_time][..., np.newaxis], \
+                           self.grid[sim_num], \
+                           self.all_tokens[idx].to(device=device), \
+                           self.forcing_terms[idx], \
+                           self.times[idx]
+                else:
+                    if (self.ssl):
+                        return self.data[sim_num][0], \
+                               self.data[sim_num][sim_time][..., np.newaxis], \
+                               self.grid[sim_num], \
+                               self.all_tokens[idx].to(device=device), \
+                               self.time[sim_num][sim_time], \
+                               self.data[sim_num][sim_time - self.initial_step:sim_time, ...][..., np.newaxis]
+                    else:
+                        return self.data[sim_num][0], \
+                               self.data[sim_num][sim_time][..., np.newaxis], \
+                               self.grid[sim_num], \
+                               self.all_tokens[idx].to(device=device), \
+                               self.time[sim_num][sim_time]  # - self.time[sim_num][sim_time-1]#, \
+            else:
+                return self.data[sim_num][sim_time - self.initial_step:sim_time, ...][..., np.newaxis], \
+                       self.data[sim_num][sim_time][..., np.newaxis], \
+                       self.grid[sim_num][..., np.newaxis]
+
+        # Need to slice according ot available data and rollout
+        elif (self.train_style == 'rollout'):
+            sim_idx = self.available_idxs[idx]  # Get valid prestored index
+            sim_num = sim_idx // self.data.shape[1]  # Get simulation number
+            sim_time = sim_idx % self.data.shape[1]  # Get time from that simulation
+            if (self.return_text):
+                # Add additional times to text encoding.
+                slice_times = self.time[sim_num][
+                              sim_time - self.initial_step:sim_time + self.rollout_length]  # Get times
+                # print(sim_time, sim_time - self.initial_step, sim_time + self.rollout_length, self.initial_step, self.rollout_length)
+                slice_tokens = torch.empty((len(slice_times), 15))
+                for idx, st in enumerate(slice_times):
+                    # Loses a very small amount of precision
+                    # Need predefined tensor
+                    slce = self._encode_tokens("&" + str(st))
+                    if (len(slce) < 15):
+                        slce.extend([20.] * (15 - len(slce)))
+                    slice_tokens[idx] = torch.Tensor(slce)[:15].to(device=device)  # .cuda()
+
+                # This goes into ssl training loop.
+                return_tokens = self.tokens[sim_num].copy()
+                return_tokens.extend([len(self.WORDS)] * (500 - len(return_tokens)))
+                return_tokens = torch.Tensor(return_tokens)
+                return_tokens = return_tokens.repeat(self.rollout_length, 1)
+                slice_tokens = torch.swapaxes(slice_tokens.unfold(0, 10, 1)[:-1], 1, 2).reshape(self.rollout_length, -1)
+                all_tokens = torch.cat((return_tokens, slice_tokens), dim=1)
+
+                # Most processing happens in the training loop
+                return self.data[sim_num][sim_time - self.initial_step:sim_time + self.rollout_length, ...][
+                           ..., np.newaxis], \
+                       self.data[sim_num][sim_time:sim_time + self.rollout_length][..., np.newaxis], \
+                       self.grid[sim_num][..., np.newaxis], \
+                       all_tokens
+                # return_tokens, slice_tokens
+            else:
+                return self.data[sim_num][sim_time - self.initial_step:sim_time, ...][..., np.newaxis], \
+                       self.data[sim_num][sim_time:sim_time + self.rollout_length], \
+                       self.grid[sim_num][..., np.newaxis]
+
+
 class TransformerOperatorDataset2D(Dataset):
     def __init__(self, f,
                  initial_step=10,
