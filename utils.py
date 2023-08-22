@@ -871,103 +871,20 @@ class TransformerOperatorDatasetBert(Dataset):
                 sim_time = sim_idx % self.data.shape[1]  # Get time from that simulation
                 if self.return_text:
                     # TODO modify time token if necessary
-                    slice_tokens_input_ids = self.tokenizer("&" + str(self.time[sim_num][sim_time]))['input_ids'][1:]
-                    slice_tokens_token_type_ids = self.tokenizer("&" + str(self.time[sim_num][sim_time]))[
-                                                      'token_type_ids'][1:]
-                    slice_tokens_attention_mask = self.tokenizer("&" + str(self.time[sim_num][sim_time]))[
-                                                      'attention_mask'][1:]
-                    slice_tokens = [slice_tokens_input_ids, slice_tokens_token_type_ids,
-                                    slice_tokens_attention_mask]
-                    self.tokens[sim_num] = [self.tokens[sim_num][0][:-1], self.tokens[sim_num][1][:-1],
-                                            self.tokens[sim_num][2][:-1]]
-                    return_tokens = np.concatenate((self.tokens[sim_num], slice_tokens), axis=1)
-
-                    # TODO: Maybe put this back
-                    # Add commas to l values
-                    # split_tokens = list(np.argwhere(return_tokens.cpu() == 35)[0])
-                    # insert_tokens = return_tokens[split_tokens[6]:split_tokens[7] + 1].cpu()
-                    # insert_tokens = torch.Tensor((insert_tokens[0],
-                    #                               insert_tokens[1], torch.tensor(33),
-                    #                               insert_tokens[2], torch.tensor(33),
-                    #                               insert_tokens[3], torch.tensor(33),
-                    #                               insert_tokens[4], torch.tensor(33),
-                    #                               insert_tokens[5], torch.tensor(33))
-                    #                              ).cpu()
-                    # return_tokens = torch.cat((return_tokens[:split_tokens[6]].cpu(), insert_tokens,
-                    #                            return_tokens[split_tokens[7]:].cpu()))  # .cuda()
-
-                    # Recreate forcing term and save as a lambda function
-                    # if (self.forcing):
-                    #     split_tokens = list(np.argwhere(return_tokens == 35)[0])
-                    #     As = return_tokens[split_tokens[4]:split_tokens[5]][1:]
-                    #     omegas = return_tokens[split_tokens[5]:split_tokens[6]][1:]
-                    #     ls = return_tokens[split_tokens[6]:split_tokens[7]][1:]
-                    #     phis = return_tokens[split_tokens[7]:split_tokens[8]][1:]
-                    #
-                    #     # Split by commas
-                    #     A_splits = torch.cat((torch.tensor([0]), torch.argwhere(As == 33.)[:, 0]))
-                    #     A_vals = [As[s + 1:s + 16] if (s != 0) else As[s:s + 15] for s in A_splits][:-1]
-                    #
-                    #     omega_splits = torch.cat((torch.tensor([0]), torch.argwhere(omegas == 33.)[:, 0]))
-                    #     omega_vals = [omegas[s + 1:s + 16] if (s != 0) else omegas[s:s + 15] for s in omega_splits][:-1]
-                    #
-                    #     l_splits = torch.cat((torch.tensor([0]), torch.argwhere(ls == 33.)[:, 0]))[:-1]
-                    #     l_vals = [ls[s + 1] if (s != 0) else ls[s] for s in l_splits]
-                    #
-                    #     phi_splits = torch.cat((torch.tensor([0]), torch.argwhere(phis == 33.)[:, 0]))
-                    #     phi_vals = [phis[s + 1:s + 16] if (s != 0) else phis[s:s + 15] for s in phi_splits][:-1]
-                    #
-                    #     # Convert each one to a float
-                    #     A_num = []
-                    #     for A in A_vals:
-                    #         if (A[-1] == 33):
-                    #             A_num.append(
-                    #                 float(''.join([self.id2word[int(w)] for w in A[:-1] if (w < len(self.WORDS))])))
-                    #         else:
-                    #             try:
-                    #                 A_num.append(
-                    #                     float(''.join([self.id2word[int(w)] for w in A if (w < len(self.WORDS))])))
-                    #             except ValueError:  # Catches like one case
-                    #                 print("FOUND AN ERROR")
-                    #                 A_num.append(
-                    #                     float(''.join([self.id2word[int(w)] for w in A[:-2] if (w < len(self.WORDS))])))
-                    #     omega_num = []
-                    #     for omega in omega_vals:
-                    #         if (omega[-1] == 33):
-                    #             omega_num.append(
-                    #                 float(''.join([self.id2word[int(w)] for w in omega[:-1] if (w < len(self.WORDS))])))
-                    #         else:
-                    #             omega_num.append(
-                    #                 float(''.join([self.id2word[int(w)] for w in omega if (w < len(self.WORDS))])))
-                    #     l_num = []
-                    #     for l in l_vals:
-                    #         l_num.append(float(''.join([self.id2word[int(w)] for w in [l] if (w < len(self.WORDS))])))
-                    #     phi_num = []
-                    #     for phi in phi_vals:
-                    #         if (phi[-1] == 33):
-                    #             phi_num.append(
-                    #                 float(''.join([self.id2word[int(w)] for w in phi[:-1] if (w < len(self.WORDS))])))
-                    #         else:
-                    #             phi_num.append(
-                    #                 float(''.join([self.id2word[int(w)] for w in phi if (w < len(self.WORDS))])))
-                    #
-                    #     # def forcing_term(x, t, As, ls, phis, omegas):
-                    #     ft = lambda x, t: forcing_term(x, t, A_num, l_num, phi_num, omega_num)
-                    #     # print(ft)
-                    #
-                    #     self.forcing_terms.append(ft)
-                    #     self.times[idx] = float(
-                    #         ''.join([self.id2word[int(w)] for w in slice_tokens[1:] if (w < len(self.WORDS))]))
-                    #
-                    # return_tokens = torch.cat(
-                    #     (return_tokens, torch.Tensor([len(self.WORDS)] * (500 - len(return_tokens))).cpu()))
-
-                    # TODO sep_token or zero
-                    return_tokens = np.concatenate((return_tokens,
-                                                    [[0] * (500 - len(return_tokens[0])) for i
-                                                     in range(3)]),
-                                                   axis=1)
-                    return_tokens = np.reshape(return_tokens, (1, -1))
+                    # reuse token in the same sim_num.
+                    if len(self.tokens[sim_num]) == 3:
+                        return_tokens = np.reshape(self.tokens[sim_num], (1, -1))
+                    else:
+                        decoded_tokens = self._decode_tokens(self.tokens[sim_num])
+                        all_tokens = "".join(decoded_tokens[:-1]) + "&" + str(self.time[sim_num][sim_time])
+                        bert_tokens = self.tokenizer(all_tokens, padding="max_length", max_length=500, truncation=True)
+                        input_ids = bert_tokens['input_ids']
+                        token_type_ids = bert_tokens['token_type_ids']
+                        attention_mask = bert_tokens['attention_mask']
+                        self.tokens[sim_num] = [input_ids, token_type_ids,
+                                                attention_mask]
+                        # TODO sep_token or zero
+                        return_tokens = np.reshape(self.tokens[sim_num], (1, -1))
                     # torch.cat((return_tokens.cpu(),torch.tensor([[self.tokenizer.sep_token_id] * (500 - len(return_tokens[0]))for i in range(3)]).cpu()))
                     self.all_tokens[idx] = torch.tensor(return_tokens).to(device=device)  # .cuda()
                     # print(self.all_tokens[idx])
@@ -1000,6 +917,12 @@ class TransformerOperatorDatasetBert(Dataset):
                     raise KeyError("Unrecognized token: {}".format(all_tokens[i]))
 
         return encoded_tokens
+
+    def _decode_tokens(self, all_tokens):
+        decoded_tokens = []
+        for i in range(len(all_tokens)):
+            decoded_tokens.append(self.id2word[all_tokens[i]])
+        return decoded_tokens
 
     def __len__(self):
         if self.train_style == 'fixed_future':

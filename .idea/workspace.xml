@@ -1,19 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="71938756-4a9f-4dff-8746-84a762b75e02" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/models/BERT/bert-tiny/bert_config.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/models/BERT/bert-tiny/bert_model.ckpt.data-00000-of-00001" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/models/BERT/bert-tiny/bert_model.ckpt.index" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/models/BERT/bert-tiny/pytorch_model.bin" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/models/BERT/bert-tiny/vocab.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/configs/pitt_config.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/configs/pitt_config.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/models/pitt.py" beforeDir="false" afterPath="$PROJECT_DIR$/models/pitt.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/train_pitt_bert.py" beforeDir="false" afterPath="$PROJECT_DIR$/train_pitt_bert.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/utils.py" beforeDir="false" afterPath="$PROJECT_DIR$/utils.py" afterDir="false" />
-    </list>
+    <list default="true" id="71938756-4a9f-4dff-8746-84a762b75e02" name="Changes" comment="to train pitt 1D fusion model using bert" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -38,18 +26,18 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "ASKED_ADD_EXTERNAL_FILES": "true",
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "WebServerToolWindowFactoryState": "false",
-    "last_opened_file_path": "C:/Users/34707/Desktop/PITT_BERT/train_pitt_bert.py",
-    "nodejs_package_manager_path": "npm",
-    "settings.editor.selected.configurable": "com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable",
-    "two.files.diff.last.used.file": "C:/Users/34707/Desktop/PITT_BERT/train_pitt_bert.py"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;ASKED_ADD_EXTERNAL_FILES&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/34707/Desktop/PITT_BERT/train_pitt_bert.py&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable&quot;,
+    &quot;two.files.diff.last.used.file&quot;: &quot;C:/Users/34707/Desktop/PITT_BERT/train_pitt_bert.py&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\Users\34707\Desktop\PITT_BERT" />
@@ -176,7 +164,6 @@
         <item itemvalue="Python.train_pitt_bert" />
         <item itemvalue="Python.generate_1d_data_bert" />
         <item itemvalue="Python.try_sympy" />
-        <item itemvalue="Python.train_pitt_copy" />
         <item itemvalue="Python.generate_1d_data_bert (1)" />
       </list>
     </recent_temporary>
@@ -195,8 +182,55 @@
       <workItem from="1692408431760" duration="851000" />
       <workItem from="1692412762864" duration="8303000" />
       <workItem from="1692498518660" duration="8998000" />
-      <workItem from="1692601589884" duration="14485000" />
+      <workItem from="1692601589884" duration="14952000" />
+      <workItem from="1692628474257" duration="815000" />
+      <workItem from="1692630272480" duration="131000" />
+      <workItem from="1692665382776" duration="6385000" />
+      <workItem from="1692674520978" duration="3302000" />
     </task>
+    <task id="LOCAL-00001" summary="using bert tiny&#10;hidden dimension=128">
+      <created>1692628211491</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1692628211491</updated>
+    </task>
+    <task id="LOCAL-00002" summary="use raw datafile provided as data to train">
+      <created>1692669921173</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1692669921174</updated>
+    </task>
+    <task id="LOCAL-00003" summary="use raw datafile provided as data to train">
+      <created>1692670159297</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1692670159297</updated>
+    </task>
+    <task id="LOCAL-00004" summary="use raw datafile provided as data to train">
+      <created>1692672467048</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1692672467048</updated>
+    </task>
+    <task id="LOCAL-00005" summary="to train pitt 1D fusion model using bert">
+      <created>1692677415389</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1692677415389</updated>
+    </task>
+    <task id="LOCAL-00006" summary="to train pitt 1D fusion model using bert">
+      <created>1692677881233</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1692677881233</updated>
+    </task>
+    <option name="localTasksCounter" value="7" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -213,7 +247,7 @@
                   <entry key="branch">
                     <value>
                       <list>
-                        <option value="main" />
+                        <option value="master" />
                       </list>
                     </value>
                   </entry>
@@ -229,6 +263,10 @@
     <ignored-roots>
       <path value="$PROJECT_DIR$/bert-base-uncased" />
     </ignored-roots>
+    <MESSAGE value="using bert tiny&#10;hidden dimension=128" />
+    <MESSAGE value="use raw datafile provided as data to train" />
+    <MESSAGE value="to train pitt 1D fusion model using bert" />
+    <option name="LAST_COMMIT_MESSAGE" value="to train pitt 1D fusion model using bert" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -265,12 +303,17 @@
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
+    <watches-manager>
+      <configuration name="PythonConfigurationType">
+        <watch expression="self.tokens[sim_num]" />
+      </configuration>
+    </watches-manager>
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/PITT_BERT$generate_1d_data.coverage" NAME="generate_1d_data Coverage Results" MODIFIED="1692354831101" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/data_generation" />
     <SUITE FILE_PATH="coverage/PITT_BERT$train_pitt.coverage" NAME="train_pitt Coverage Results" MODIFIED="1692527187429" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/PITT_BERT$generate_1d_data_bert.coverage" NAME="generate_1d_data_bert Coverage Results" MODIFIED="1692623764530" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/data_generation" />
-    <SUITE FILE_PATH="coverage/PITT_BERT$train_pitt_bert.coverage" NAME="train_pitt_bert Coverage Results" MODIFIED="1692627774532" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/PITT_BERT$train_pitt_bert.coverage" NAME="train_pitt_bert Coverage Results" MODIFIED="1692676883212" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/PITT_BERT$try_bert.coverage" NAME="try_bert Coverage Results" MODIFIED="1692352772404" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/PITT_BERT$generate_1d_data_bert__1_.coverage" NAME="generate_1d_data_bert (1) Coverage Results" MODIFIED="1692501076578" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/data_generation" />
     <SUITE FILE_PATH="coverage/PITT_BERT$try_sympy.coverage" NAME="try_sympy Coverage Results" MODIFIED="1692604024127" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />

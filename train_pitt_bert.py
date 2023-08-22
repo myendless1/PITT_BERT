@@ -2,9 +2,10 @@ import torch
 import torch.nn as nn
 import yaml
 import h5py
+from torch.utils.data import ConcatDataset
 from transformers import BertModel, BertConfig
 
-from utils import TransformerOperatorDatasetBert
+from utils import TransformerOperatorDatasetBert, TransformerOperatorDataset
 from tqdm import tqdm
 import time
 from matplotlib import pyplot as plt
@@ -19,7 +20,6 @@ from models.pitt import StandardPhysicsInformedTokenTransformer
 from models.oformer import Encoder1D, STDecoder1D, OFormer1D, PointWiseDecoder1D
 from models.fno import FNO1d
 from models.deeponet import DeepONet1D
-
 
 device = torch.device('cuda' if (torch.cuda.is_available()) else 'cpu')
 
@@ -89,7 +89,7 @@ def evaluate(test_loader, transformer, loss_fn):
             # through the transformer.
             # y_pred = transformer(grid, tokens.cuda(), x0)
             y_pred = transformer(grid.to(device=device), tokens.to(device=device), x0.to(device=device),
-                                 t.to(device=device))
+                                 t.to(device=device), device=device)
             # y_pred = transformer(grid.to(device=device), x0.to(device=device), x0.to(device=device), t.to(device=device))
             # y_pred = transformer(grid.cuda(), tokens.cuda(), x0.cuda())#, src_mask)#[:,0,:]
             y = y[..., 0].to(device=device)
@@ -152,60 +152,128 @@ def get_transformer(model_name, neural_operator, config):
 
 
 def get_data(f, config):
+    train_data = TransformerOperatorDataset(f, config['flnm'],
+                                            split="train",
+                                            initial_step=config['initial_step'],
+                                            reduced_resolution=config['reduced_resolution'],
+                                            reduced_resolution_t=config['reduced_resolution_t'],
+                                            reduced_batch=config['reduced_batch'],
+                                            saved_folder=config['base_path'],
+                                            return_text=config['return_text'],
+                                            num_t=config['num_t'],
+                                            num_x=config['num_x'],
+                                            sim_time=config['sim_time'],
+                                            num_samples=config['num_samples'],
+                                            train_style=config['train_style'],
+                                            rollout_length=config['rollout_length'],
+                                            seed=config['seed'],
+                                            val_ratio=0.2,
+                                            )
+    train_data.data = train_data.data.to(device)
+    train_data.grid = train_data.grid.to(device)
+    val_data = TransformerOperatorDataset(f, config['flnm'],
+                                          split="val",
+                                          initial_step=config['initial_step'],
+                                          reduced_resolution=config['reduced_resolution'],
+                                          reduced_resolution_t=config['reduced_resolution_t'],
+                                          reduced_batch=config['reduced_batch'],
+                                          saved_folder=config['base_path'],
+                                          return_text=config['return_text'],
+                                          num_t=config['num_t'],
+                                          num_x=config['num_x'],
+                                          sim_time=config['sim_time'],
+                                          num_samples=config['num_samples'],
+                                          train_style=config['train_style'],
+                                          rollout_length=config['rollout_length'],
+                                          seed=config['seed'],
+                                          val_ratio=0.2,
+                                          )
+    val_data.data = val_data.data.to(device)
+    val_data.grid = val_data.grid.to(device)
+    test_data = TransformerOperatorDataset(f, config['flnm'],
+                                           split="test",
+                                           initial_step=config['initial_step'],
+                                           reduced_resolution=config['reduced_resolution'],
+                                           reduced_resolution_t=config['reduced_resolution_t'],
+                                           reduced_batch=config['reduced_batch'],
+                                           saved_folder=config['base_path'],
+                                           return_text=config['return_text'],
+                                           num_t=config['num_t'],
+                                           num_x=config['num_x'],
+                                           sim_time=config['sim_time'],
+                                           num_samples=config['num_samples'],
+                                           train_style=config['train_style'],
+                                           rollout_length=config['rollout_length'],
+                                           seed=config['seed'],
+                                           val_ratio=0.2,
+                                           )
+    test_data.data = test_data.data.to(device)
+    test_data.grid = test_data.grid.to(device)
+    return train_data, val_data, test_data
+
+def get_data_bert(f, config):
     train_data = TransformerOperatorDatasetBert(f, config['flnm'],
-                                                split="train",
-                                                initial_step=config['initial_step'],
-                                                reduced_resolution=config['reduced_resolution'],
-                                                reduced_resolution_t=config['reduced_resolution_t'],
-                                                reduced_batch=config['reduced_batch'],
-                                                saved_folder=config['base_path'],
-                                                return_text=config['return_text'],
-                                                num_t=config['num_t'],
-                                                num_x=config['num_x'],
-                                                sim_time=config['sim_time'],
-                                                num_samples=config['num_samples'],
-                                                train_style=config['train_style'],
-                                                rollout_length=config['rollout_length'],
-                                                seed=config['seed'],
-                                                )
+                                            split="train",
+                                            initial_step=config['initial_step'],
+                                            reduced_resolution=config['reduced_resolution'],
+                                            reduced_resolution_t=config['reduced_resolution_t'],
+                                            reduced_batch=config['reduced_batch'],
+                                            saved_folder=config['base_path'],
+                                            return_text=config['return_text'],
+                                            num_t=config['num_t'],
+                                            num_x=config['num_x'],
+                                            sim_time=config['sim_time'],
+                                            num_samples=config['num_samples'],
+                                            train_style=config['train_style'],
+                                            rollout_length=config['rollout_length'],
+                                            seed=config['seed'],
+                                            val_ratio=0.2,
+                                            )
     train_data.data = train_data.data.to(device)
     train_data.grid = train_data.grid.to(device)
     val_data = TransformerOperatorDatasetBert(f, config['flnm'],
-                                              split="val",
-                                              initial_step=config['initial_step'],
-                                              reduced_resolution=config['reduced_resolution'],
-                                              reduced_resolution_t=config['reduced_resolution_t'],
-                                              reduced_batch=config['reduced_batch'],
-                                              saved_folder=config['base_path'],
-                                              return_text=config['return_text'],
-                                              num_t=config['num_t'],
-                                              num_x=config['num_x'],
-                                              sim_time=config['sim_time'],
-                                              num_samples=config['num_samples'],
-                                              train_style=config['train_style'],
-                                              rollout_length=config['rollout_length'],
-                                              seed=config['seed'],
-                                              )
+                                          split="val",
+                                          initial_step=config['initial_step'],
+                                          reduced_resolution=config['reduced_resolution'],
+                                          reduced_resolution_t=config['reduced_resolution_t'],
+                                          reduced_batch=config['reduced_batch'],
+                                          saved_folder=config['base_path'],
+                                          return_text=config['return_text'],
+                                          num_t=config['num_t'],
+                                          num_x=config['num_x'],
+                                          sim_time=config['sim_time'],
+                                          num_samples=config['num_samples'],
+                                          train_style=config['train_style'],
+                                          rollout_length=config['rollout_length'],
+                                          seed=config['seed'],
+                                          val_ratio=0.2,
+                                          )
     val_data.data = val_data.data.to(device)
     val_data.grid = val_data.grid.to(device)
     test_data = TransformerOperatorDatasetBert(f, config['flnm'],
-                                               split="test",
-                                               initial_step=config['initial_step'],
-                                               reduced_resolution=config['reduced_resolution'],
-                                               reduced_resolution_t=config['reduced_resolution_t'],
-                                               reduced_batch=config['reduced_batch'],
-                                               saved_folder=config['base_path'],
-                                               return_text=config['return_text'],
-                                               num_t=config['num_t'],
-                                               num_x=config['num_x'],
-                                               sim_time=config['sim_time'],
-                                               num_samples=config['num_samples'],
-                                               train_style=config['train_style'],
-                                               rollout_length=config['rollout_length'],
-                                               seed=config['seed'],
-                                               )
+                                           split="test",
+                                           initial_step=config['initial_step'],
+                                           reduced_resolution=config['reduced_resolution'],
+                                           reduced_resolution_t=config['reduced_resolution_t'],
+                                           reduced_batch=config['reduced_batch'],
+                                           saved_folder=config['base_path'],
+                                           return_text=config['return_text'],
+                                           num_t=config['num_t'],
+                                           num_x=config['num_x'],
+                                           sim_time=config['sim_time'],
+                                           num_samples=config['num_samples'],
+                                           train_style=config['train_style'],
+                                           rollout_length=config['rollout_length'],
+                                           seed=config['seed'],
+                                           val_ratio=0.2,
+                                           )
     test_data.data = test_data.data.to(device)
     test_data.grid = test_data.grid.to(device)
+    return train_data, val_data, test_data
+
+
+def get_data_loader(f, config):
+    train_data, val_data, test_data = get_data(f, config)
 
     train_loader = torch.utils.data.DataLoader(train_data, batch_size=config['batch_size'],
                                                num_workers=config['num_workers'], shuffle=True,
@@ -228,6 +296,48 @@ def get_data(f, config):
     return train_loader, val_loader, test_loader
 
 
+def get_1d_data(f1, config1, f2, config2, f3, config3):
+    train_data1, val_data1, test_data1 = get_data_bert(f1, config1)
+    train_data2, val_data2, test_data2 = get_data_bert(f2, config2)
+    train_data3, val_data3, test_data3 = get_data_bert(f3, config3)
+
+    train_data = ConcatDataset([train_data1, train_data2, train_data3])
+    val_data = ConcatDataset([val_data1, val_data2, val_data3])
+    test_data = ConcatDataset([test_data1, test_data2, test_data3])
+
+    train_loader = torch.utils.data.DataLoader(train_data, batch_size=config1['batch_size'],
+                                               num_workers=config1['num_workers'], shuffle=True,
+                                               generator=torch.Generator(device='cuda'))
+    val_loader = torch.utils.data.DataLoader(val_data, batch_size=config1['batch_size'],
+                                             num_workers=config1['num_workers'], shuffle=False,
+                                             generator=torch.Generator(device='cuda'))
+    test_loader = torch.utils.data.DataLoader(test_data, batch_size=config1['batch_size'],
+                                              num_workers=config1['num_workers'], shuffle=False,
+                                              generator=torch.Generator(device='cuda'))
+
+    # Check against data leaks
+    assert not (bool(set(train_data1.data_list) & \
+                     set(val_data1.data_list)) | \
+                bool(set(train_data1.data_list) & \
+                     set(test_data1.data_list)) & \
+                bool(set(val_data1.data_list) & \
+                     set(test_data1.data_list)))
+    assert not (bool(set(train_data2.data_list) & \
+                     set(val_data2.data_list)) | \
+                bool(set(train_data2.data_list) & \
+                     set(test_data2.data_list)) & \
+                bool(set(val_data2.data_list) & \
+                     set(test_data2.data_list)))
+    assert not (bool(set(train_data3.data_list) & \
+                     set(val_data3.data_list)) | \
+                bool(set(train_data3.data_list) & \
+                     set(test_data3.data_list)) & \
+                bool(set(val_data3.data_list) & \
+                     set(test_data3.data_list)))
+
+    return train_loader, val_loader, test_loader
+
+
 def run_training(config, prefix):
     # print(f'Epochs = {config[\'epochs\']}, learning rate = {config[\'learning_rate\']}, scheduler step = {scheduler_step}    , scheduler gamma = {scheduler_gamma}')
 
@@ -242,7 +352,76 @@ def run_training(config, prefix):
 
     print("Filename: {}, Seed: {}\n".format(config['flnm'], config['seed']))
 
-    train_loader, val_loader, test_loader = get_data(f, config)
+    heat_config = {
+        'flnm': "Heat",
+        'data_name': 'varied_heat_10000.h5',
+        'initial_step': 10,
+        'reduced_resolution': 1,
+        'reduced_resolution_t': 1,
+        'reduced_batch': 1,
+        'base_path': './pde_data/',
+        'return_text': True,
+        'num_t': 100,
+        'num_x': 100,
+        'sim_time': 1000,
+        'num_samples': config['num_samples'],
+        'train_style': 'next_step',
+        'rollout_length': 1,
+        'seed': config['seed'],
+
+        'batch_size': 128,
+        'num_workers': 0,
+
+    }
+    KdV_config = {
+        'flnm': "KdV",
+        'data_name': 'varied_kdv_2500.h5',
+        'initial_step': 10,
+        'reduced_resolution': 1,
+        'reduced_resolution_t': 1,
+        'reduced_batch': 1,
+        'base_path': './pde_data/',
+        'return_text': True,
+        'num_t': 100,
+        'num_x': 100,
+        'sim_time': 1000,
+        'num_samples': config['num_samples'],
+        'train_style': 'next_step',
+        'rollout_length': 1,
+        'seed': config['seed'],
+
+        'batch_size': 128,
+        'num_workers': 0,
+
+    }
+    burgers_config = {
+        'flnm': "Burgers",
+        'data_name': 'varied_burgers_2500.h5',
+        'initial_step': 10,
+        'reduced_resolution': 1,
+        'reduced_resolution_t': 1,
+        'reduced_batch': 1,
+        'base_path': './pde_data/',
+        'return_text': True,
+        'num_t': 100,
+        'num_x': 100,
+        'sim_time': 1000,
+        'num_samples': config['num_samples'],
+        'train_style': 'next_step',
+        'rollout_length': 1,
+        'seed': config['seed'],
+
+        'batch_size': 128,
+        'num_workers': 0,
+
+    }
+
+    heat_f = h5py.File("{}{}".format(heat_config['base_path'], heat_config['data_name']), 'r')
+    KdV_f = h5py.File("{}{}".format(KdV_config['base_path'], KdV_config['data_name']), 'r')
+    burgers_f = h5py.File("{}{}".format(burgers_config['base_path'], burgers_config['data_name']), 'r')
+
+    train_loader, val_loader, test_loader = get_1d_data(heat_f, heat_config, KdV_f, KdV_config, burgers_f,
+                                                        burgers_config)
 
     neural_operator = get_neural_operator(config['neural_operator'], config)
     transformer = get_transformer(config['transformer'], neural_operator, config)
@@ -314,9 +493,9 @@ def run_training(config, prefix):
                 # Forward pass: compute predictions by passing the input sequence
                 # through the transformer.
                 y_pred = transformer(grid.to(device=device), tokens.to(device=device), x0.to(device=device),
-                                     t.to(device=device),device=device)
+                                     t.to(device=device), device=device)
                 y = y[..., 0].to(device=device)  # .cuda()
-                if (bn == 0):
+                if bn == 0:
                     y_val_true = y.clone()
                     y_val_pred = y_pred.clone()
                 all_val_preds.append(y_pred.detach())

@@ -23,7 +23,7 @@ args:
     #flnm: 'Heat'
     #data_name: 'varied_heat_10000.h5'
     flnm: 'Burgers'
-    data_name: 'burgers_1000.h5'
+    data_name: 'varied_burgers_2500.h5'
     #flnm: 'KdV'
     #data_name: 'varied_kdv_2500.h5'
 
