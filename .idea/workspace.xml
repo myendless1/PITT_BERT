@@ -1,9 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="71938756-4a9f-4dff-8746-84a762b75e02" name="Changes" comment="use raw datafile provided as data to train;to train pitt 1D fusion model using bert">
+    <list default="true" id="71938756-4a9f-4dff-8746-84a762b75e02" name="Changes" comment="train pitt_bert for best super parameters">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/configs/pitt_config.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/configs/pitt_config.yaml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/train_pitt_bert.py" beforeDir="false" afterPath="$PROJECT_DIR$/train_pitt_bert.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -190,7 +189,7 @@
       <workItem from="1692628474257" duration="815000" />
       <workItem from="1692630272480" duration="131000" />
       <workItem from="1692665382776" duration="6385000" />
-      <workItem from="1692674520978" duration="8537000" />
+      <workItem from="1692674520978" duration="12256000" />
     </task>
     <task id="LOCAL-00001" summary="using bert tiny&#10;hidden dimension=128">
       <created>1692628211491</created>
@@ -241,7 +240,14 @@
       <option name="project" value="LOCAL" />
       <updated>1692678564085</updated>
     </task>
-    <option name="localTasksCounter" value="8" />
+    <task id="LOCAL-00008" summary="train pitt_bert for best super parameters">
+      <created>1692703836444</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1692703836444</updated>
+    </task>
+    <option name="localTasksCounter" value="9" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -278,7 +284,8 @@
     <MESSAGE value="use raw datafile provided as data to train" />
     <MESSAGE value="to train pitt 1D fusion model using bert" />
     <MESSAGE value="use raw datafile provided as data to train;to train pitt 1D fusion model using bert" />
-    <option name="LAST_COMMIT_MESSAGE" value="use raw datafile provided as data to train;to train pitt 1D fusion model using bert" />
+    <MESSAGE value="train pitt_bert for best super parameters" />
+    <option name="LAST_COMMIT_MESSAGE" value="train pitt_bert for best super parameters" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -310,12 +317,12 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/train_pitt_bert.py</url>
-          <line>585</line>
+          <line>586</line>
           <option name="timeStamp" value="109" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/train_pitt_bert.py</url>
-          <line>583</line>
+          <line>584</line>
           <option name="timeStamp" value="110" />
         </line-breakpoint>
       </breakpoints>

@@ -211,62 +211,63 @@ def get_data(f, config):
     test_data.grid = test_data.grid.to(device)
     return train_data, val_data, test_data
 
+
 def get_data_bert(f, config):
     train_data = TransformerOperatorDatasetBert(f, config['flnm'],
-                                            split="train",
-                                            initial_step=config['initial_step'],
-                                            reduced_resolution=config['reduced_resolution'],
-                                            reduced_resolution_t=config['reduced_resolution_t'],
-                                            reduced_batch=config['reduced_batch'],
-                                            saved_folder=config['base_path'],
-                                            return_text=config['return_text'],
-                                            num_t=config['num_t'],
-                                            num_x=config['num_x'],
-                                            sim_time=config['sim_time'],
-                                            num_samples=config['num_samples'],
-                                            train_style=config['train_style'],
-                                            rollout_length=config['rollout_length'],
-                                            seed=config['seed'],
-                                            val_ratio=0.2,
-                                            )
+                                                split="train",
+                                                initial_step=config['initial_step'],
+                                                reduced_resolution=config['reduced_resolution'],
+                                                reduced_resolution_t=config['reduced_resolution_t'],
+                                                reduced_batch=config['reduced_batch'],
+                                                saved_folder=config['base_path'],
+                                                return_text=config['return_text'],
+                                                num_t=config['num_t'],
+                                                num_x=config['num_x'],
+                                                sim_time=config['sim_time'],
+                                                num_samples=config['num_samples'],
+                                                train_style=config['train_style'],
+                                                rollout_length=config['rollout_length'],
+                                                seed=config['seed'],
+                                                val_ratio=0.2,
+                                                )
     train_data.data = train_data.data.to(device)
     train_data.grid = train_data.grid.to(device)
     val_data = TransformerOperatorDatasetBert(f, config['flnm'],
-                                          split="val",
-                                          initial_step=config['initial_step'],
-                                          reduced_resolution=config['reduced_resolution'],
-                                          reduced_resolution_t=config['reduced_resolution_t'],
-                                          reduced_batch=config['reduced_batch'],
-                                          saved_folder=config['base_path'],
-                                          return_text=config['return_text'],
-                                          num_t=config['num_t'],
-                                          num_x=config['num_x'],
-                                          sim_time=config['sim_time'],
-                                          num_samples=config['num_samples'],
-                                          train_style=config['train_style'],
-                                          rollout_length=config['rollout_length'],
-                                          seed=config['seed'],
-                                          val_ratio=0.2,
-                                          )
+                                              split="val",
+                                              initial_step=config['initial_step'],
+                                              reduced_resolution=config['reduced_resolution'],
+                                              reduced_resolution_t=config['reduced_resolution_t'],
+                                              reduced_batch=config['reduced_batch'],
+                                              saved_folder=config['base_path'],
+                                              return_text=config['return_text'],
+                                              num_t=config['num_t'],
+                                              num_x=config['num_x'],
+                                              sim_time=config['sim_time'],
+                                              num_samples=config['num_samples'],
+                                              train_style=config['train_style'],
+                                              rollout_length=config['rollout_length'],
+                                              seed=config['seed'],
+                                              val_ratio=0.2,
+                                              )
     val_data.data = val_data.data.to(device)
     val_data.grid = val_data.grid.to(device)
     test_data = TransformerOperatorDatasetBert(f, config['flnm'],
-                                           split="test",
-                                           initial_step=config['initial_step'],
-                                           reduced_resolution=config['reduced_resolution'],
-                                           reduced_resolution_t=config['reduced_resolution_t'],
-                                           reduced_batch=config['reduced_batch'],
-                                           saved_folder=config['base_path'],
-                                           return_text=config['return_text'],
-                                           num_t=config['num_t'],
-                                           num_x=config['num_x'],
-                                           sim_time=config['sim_time'],
-                                           num_samples=config['num_samples'],
-                                           train_style=config['train_style'],
-                                           rollout_length=config['rollout_length'],
-                                           seed=config['seed'],
-                                           val_ratio=0.2,
-                                           )
+                                               split="test",
+                                               initial_step=config['initial_step'],
+                                               reduced_resolution=config['reduced_resolution'],
+                                               reduced_resolution_t=config['reduced_resolution_t'],
+                                               reduced_batch=config['reduced_batch'],
+                                               saved_folder=config['base_path'],
+                                               return_text=config['return_text'],
+                                               num_t=config['num_t'],
+                                               num_x=config['num_x'],
+                                               sim_time=config['sim_time'],
+                                               num_samples=config['num_samples'],
+                                               train_style=config['train_style'],
+                                               rollout_length=config['rollout_length'],
+                                               seed=config['seed'],
+                                               val_ratio=0.2,
+                                               )
     test_data.data = test_data.data.to(device)
     test_data.grid = test_data.grid.to(device)
     return train_data, val_data, test_data
@@ -596,30 +597,52 @@ if __name__ == '__main__':
 
     # Get arguments and get rid of unnecessary ones
     train_args = config['args']
-    for batch_size in [32]:
-        for lr in [0.001]:
-            for weight_decay in [1e-4]:
-                for dropout in [0]:
+    file = open("loss_compare.log", "w")
+    for batch_size in [
+        32,
+        # 64,
+        # 128
+    ]:
+        for lr in [
+            0.001,
+            # 1e-4
+        ]:
+            for weight_decay in [
+                0.1,
+                # 1e-2,
+                # 1e-3,
+                # 1e-4,
+                # 1e-5
+            ]:
+                for dropout in [
+                    0,
+                    # 0.1,
+                    # 0.2
+                ]:
                     # train different model with different training set size. Param num_samples=10 means 10 equations(90
                     # frames for each equation) thus 900 data in heat, burgers and KdV respectively. Training rate =
                     # 0.6 thus total training set size is 1620 when num_samples=10.
                     for num_samples in [
                         # 10,
-                        100,
-                        # 1000
+                        # 100,
+                        1000
                     ]:
-                        prefix = train_args['flnm'] + "_" + train_args['data_name'].split("_")[0] + "_" + train_args['train_style'] + "_" + \
+                        prefix = train_args['flnm'] + "_" + train_args['data_name'].split("_")[0] + "_" + train_args[
+                            'train_style'] + "_" + \
                                  train_args['embedding']
                         train_args['prefix'] = prefix
-                        os.makedirs("{}{}_{}_{}".format(train_args['results_dir'], train_args['transformer'], train_args['neural_operator'],
+                        os.makedirs("{}{}_{}_{}".format(train_args['results_dir'], train_args['transformer'],
+                                                        train_args['neural_operator'],
                                                         prefix),
                                     exist_ok=True)
                         shutil.copy("./configs/pitt_config.yaml",
-                                    "{}{}_{}_{}/pitt_config.yaml".format(train_args['results_dir'], train_args['transformer'],
+                                    "{}{}_{}_{}/pitt_config.yaml".format(train_args['results_dir'],
+                                                                         train_args['transformer'],
                                                                          train_args['neural_operator'], prefix))
-                        shutil.copy("./plot_progress.py", "{}{}_{}_{}/plot_progress.py".format(train_args['results_dir'],
-                                                                                               train_args['transformer'],
-                                                                                               train_args['neural_operator'], prefix))
+                        shutil.copy("./plot_progress.py",
+                                    "{}{}_{}_{}/plot_progress.py".format(train_args['results_dir'],
+                                                                         train_args['transformer'],
+                                                                         train_args['neural_operator'], prefix))
                         # modify super parameters
                         train_args['batch_size'] = batch_size
                         train_args['learning_rate'] = lr
@@ -636,8 +659,9 @@ if __name__ == '__main__':
                             train_args['seed'] = seed
                             val_loss += run_training(train_args, prefix)
                         val_loss /= train_args.pop('num_seeds')
-                        print(
+                        file.write(
                             f"flnm:{train_args['flnm']},data_name:{train_args['data_name']},num_samples:{num_samples},"
                             f"batch_size:{batch_size},learning_rate:{lr},weight_decay:{train_args['weight_decay']},"
                             f"dropout:{train_args['dropout']}")
-                        print(f"loss:{val_loss}")
+                        file.write(f"loss:{val_loss}")
+                        file.flush()
