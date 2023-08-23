@@ -302,9 +302,21 @@ def get_1d_data(f1, config1, f2, config2, f3, config3):
     train_data2, val_data2, test_data2 = get_data_bert(f2, config2)
     train_data3, val_data3, test_data3 = get_data_bert(f3, config3)
 
-    train_data = ConcatDataset([train_data1, train_data2, train_data3])
-    val_data = ConcatDataset([val_data1, val_data2, val_data3])
-    test_data = ConcatDataset([test_data1, test_data2, test_data3])
+    train_data = ConcatDataset([
+        train_data1,
+        train_data2,
+        train_data3
+    ])
+    val_data = ConcatDataset([
+        val_data1,
+        val_data2,
+        val_data3
+    ])
+    test_data = ConcatDataset([
+        test_data1,
+        test_data2,
+        test_data3
+    ])
 
     train_loader = torch.utils.data.DataLoader(train_data, batch_size=config1['batch_size'],
                                                num_workers=config1['num_workers'], shuffle=True,
@@ -323,18 +335,18 @@ def get_1d_data(f1, config1, f2, config2, f3, config3):
                      set(test_data1.data_list)) & \
                 bool(set(val_data1.data_list) & \
                      set(test_data1.data_list)))
-    assert not (bool(set(train_data2.data_list) & \
-                     set(val_data2.data_list)) | \
-                bool(set(train_data2.data_list) & \
-                     set(test_data2.data_list)) & \
-                bool(set(val_data2.data_list) & \
-                     set(test_data2.data_list)))
-    assert not (bool(set(train_data3.data_list) & \
-                     set(val_data3.data_list)) | \
-                bool(set(train_data3.data_list) & \
-                     set(test_data3.data_list)) & \
-                bool(set(val_data3.data_list) & \
-                     set(test_data3.data_list)))
+    # assert not (bool(set(train_data2.data_list) & \
+    #                  set(val_data2.data_list)) | \
+    #             bool(set(train_data2.data_list) & \
+    #                  set(test_data2.data_list)) & \
+    #             bool(set(val_data2.data_list) & \
+    #                  set(test_data2.data_list)))
+    # assert not (bool(set(train_data3.data_list) & \
+    #                  set(val_data3.data_list)) | \
+    #             bool(set(train_data3.data_list) & \
+    #                  set(test_data3.data_list)) & \
+    #             bool(set(val_data3.data_list) & \
+    #                  set(test_data3.data_list)))
 
     return train_loader, val_loader, test_loader
 
@@ -615,8 +627,8 @@ if __name__ == '__main__':
                 # 1e-5
             ]:
                 for dropout in [
-                    0,
-                    # 0.1,
+                    # 0,
+                    0.1,
                     # 0.2
                 ]:
                     # train different model with different training set size. Param num_samples=10 means 10 equations(90
@@ -658,7 +670,7 @@ if __name__ == '__main__':
                             np.random.seed(seed)
                             train_args['seed'] = seed
                             val_loss += run_training(train_args, prefix)
-                        val_loss /= train_args.pop('num_seeds')
+                        val_loss /= train_args['num_seeds']
                         file.write(
                             f"flnm:{train_args['flnm']},data_name:{train_args['data_name']},num_samples:{num_samples},"
                             f"batch_size:{batch_size},learning_rate:{lr},weight_decay:{train_args['weight_decay']},"

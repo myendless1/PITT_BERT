@@ -278,6 +278,8 @@ class PhysicsInformedTokenTransformer(nn.Module):
                  dropout=0.1):
         super().__init__()
 
+        self.hidden_dim = hidden_dim
+
         self.temp = nn.Linear(100, 100, bias=False)
         self.temp.weight.data.copy_(torch.eye(100))
 
@@ -288,6 +290,7 @@ class PhysicsInformedTokenTransformer(nn.Module):
         self.embedding_layer3 = nn.Linear(1, hidden_dim, bias=False)
 
         self.bert_model = bert_model
+        self.k_embedding_linear = nn.Linear(1, 100, bias=False)
 
         self.embedding_linear = nn.Linear(500, 100, bias=False)
 
@@ -384,9 +387,12 @@ class PhysicsInformedTokenTransformer(nn.Module):
         bert_embedding = self.bert_model(input_ids=input_ids, attention_mask=attention_mask,
                                          token_type_ids=token_type_ids)
 
-        bert_embedding = torch.tensor(bert_embedding['hidden_states'][0]).to(device)
+        # bert_embedding = bert_embedding['hidden_states'][0].to(device)
+        bert_embedding = bert_embedding['hidden_states'][0][:, 0:1, :].to(device)
+        bert_embedding = torch.swapaxes(self.k_embedding_linear(torch.swapaxes(bert_embedding, 1, 2)), 1, 2)
 
-        token_embedding = torch.swapaxes(self.embedding_linear(torch.swapaxes(bert_embedding, 1, 2)), 1, 2)
+        # token_embedding = torch.swapaxes(self.embedding_linear(torch.swapaxes(bert_embedding, 1, 2)), 1, 2)
+        token_embedding = bert_embedding
 
         kh1 = token_embedding.clone()
         kh2 = token_embedding.clone()
@@ -410,6 +416,8 @@ class PhysicsInformedTokenTransformer(nn.Module):
 
         # Use FNO embedding
         vh_old = vh.clone()
+        # vh_old = torch.zeros((keys.shape[0], 500, self.hidden_dim))
+        # vh_old[:, :100, :] = vh
 
         # Embed time
         t = t.unsqueeze(1).unsqueeze(1)
@@ -439,7 +447,7 @@ class PhysicsInformedTokenTransformer(nn.Module):
             t_frac = t_frac + t / self.num_layers
 
         out = self.output_layers(vh)[..., 0]
-        return x[..., 0] + out
+        return x[..., 0] + out[:, :100]
 
 
 class StandardPhysicsInformedTokenTransformer(nn.Module):
