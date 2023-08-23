@@ -662,7 +662,7 @@ if __name__ == '__main__':
                         train_args['dropout'] = dropout
                         train_args['num_samples'] = num_samples
                         val_loss = 0
-                        for seed in range(train_args.pop('num_seeds')):
+                        for seed in range(train_args['num_seeds']):
                             # if(seed == 0):
                             #    continue
                             print("\nSEED: {}\n".format(seed))
