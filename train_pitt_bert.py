@@ -623,8 +623,9 @@ if __name__ == '__main__':
                 # 0.1,
                 # 1e-2,
                 # 1e-3,
-                1e-4,
-                # 1e-5
+                # 1e-4,
+                # 1e-5,
+                1e-6
             ]:
                 for dropout in [
                     0,
@@ -635,9 +636,9 @@ if __name__ == '__main__':
                     # frames for each equation) thus 900 data in heat, burgers and KdV respectively. Training rate =
                     # 0.6 thus total training set size is 1620 when num_samples=10.
                     for num_samples in [
-                        # 10,
+                        10,
                         # 100,
-                        1000
+                        # 1000
                     ]:
                         prefix = train_args['flnm'] + "_" + train_args['data_name'].split("_")[0] + "_" + train_args[
                             'train_style'] + "_" + \

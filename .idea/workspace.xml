@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="71938756-4a9f-4dff-8746-84a762b75e02" name="Changes" comment="to train fusion bert embedding_linear lhs frozen.">
+    <list default="true" id="71938756-4a9f-4dff-8746-84a762b75e02" name="Changes" comment="to train fusion bert embedding_linear lhs frozen dropout=0">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/train_pitt_bert.py" beforeDir="false" afterPath="$PROJECT_DIR$/train_pitt_bert.py" afterDir="false" />
     </list>
@@ -195,7 +195,7 @@
       <workItem from="1692748762548" duration="1059000" />
       <workItem from="1692751699011" duration="8020000" />
       <workItem from="1692778568718" duration="14375000" />
-      <workItem from="1692836869473" duration="8479000" />
+      <workItem from="1692836869473" duration="12049000" />
     </task>
     <task id="LOCAL-00001" summary="using bert tiny&#10;hidden dimension=128">
       <created>1692628211491</created>
@@ -323,7 +323,14 @@
       <option name="project" value="LOCAL" />
       <updated>1692887225602</updated>
     </task>
-    <option name="localTasksCounter" value="19" />
+    <task id="LOCAL-00019" summary="to train fusion bert embedding_linear lhs frozen dropout=0">
+      <created>1692892178216</created>
+      <option name="number" value="00019" />
+      <option name="presentableId" value="LOCAL-00019" />
+      <option name="project" value="LOCAL" />
+      <updated>1692892178216</updated>
+    </task>
+    <option name="localTasksCounter" value="20" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -369,7 +376,8 @@
     <MESSAGE value="add bert gradient" />
     <MESSAGE value="to train fusion bert embedding_linear lhs unfrozen." />
     <MESSAGE value="to train fusion bert embedding_linear lhs frozen." />
-    <option name="LAST_COMMIT_MESSAGE" value="to train fusion bert embedding_linear lhs frozen." />
+    <MESSAGE value="to train fusion bert embedding_linear lhs frozen dropout=0" />
+    <option name="LAST_COMMIT_MESSAGE" value="to train fusion bert embedding_linear lhs frozen dropout=0" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -427,7 +435,7 @@
     <SUITE FILE_PATH="coverage/PITT_BERT$generate_1d_data.coverage" NAME="generate_1d_data Coverage Results" MODIFIED="1692354831101" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/data_generation" />
     <SUITE FILE_PATH="coverage/PITT_BERT$train_pitt.coverage" NAME="train_pitt Coverage Results" MODIFIED="1692527187429" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/PITT_BERT$generate_1d_data_bert.coverage" NAME="generate_1d_data_bert Coverage Results" MODIFIED="1692623764530" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/data_generation" />
-    <SUITE FILE_PATH="coverage/PITT_BERT$train_pitt_bert.coverage" NAME="train_pitt_bert Coverage Results" MODIFIED="1692890960040" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/PITT_BERT$train_pitt_bert.coverage" NAME="train_pitt_bert Coverage Results" MODIFIED="1692895654261" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/PITT_BERT$try_bert.coverage" NAME="try_bert Coverage Results" MODIFIED="1692352772404" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/PITT_BERT$generate_1d_data_bert__1_.coverage" NAME="generate_1d_data_bert (1) Coverage Results" MODIFIED="1692501076578" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/data_generation" />
     <SUITE FILE_PATH="coverage/PITT_BERT$try_sympy.coverage" NAME="try_sympy Coverage Results" MODIFIED="1692604024127" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
