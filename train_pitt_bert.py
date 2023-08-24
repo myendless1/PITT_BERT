@@ -627,8 +627,8 @@ if __name__ == '__main__':
                 # 1e-5
             ]:
                 for dropout in [
-                    # 0,
-                    0.1,
+                    0,
+                    # 0.1,
                     # 0.2
                 ]:
                     # train different model with different training set size. Param num_samples=10 means 10 equations(90
