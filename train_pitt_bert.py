@@ -136,7 +136,7 @@ def get_transformer(model_name, neural_operator, config):
     # 通过配置和路径导入模型
     bert_model = BertModel.from_pretrained(model_path, config=model_config, ignore_mismatched_sizes=True)
     for name, parameter in bert_model.named_parameters():
-        parameter.requires_grad = False
+        parameter.requires_grad = True
     if config['embedding'] == 'standard':
         print("\nUSING STANDARD EMBEDDING")
         transformer = StandardPhysicsInformedTokenTransformer(500, config['hidden'], config['layers'], config['heads'],

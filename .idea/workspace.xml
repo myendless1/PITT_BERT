@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="71938756-4a9f-4dff-8746-84a762b75e02" name="Changes" comment="learning rate set to 3e-4">
+    <list default="true" id="71938756-4a9f-4dff-8746-84a762b75e02" name="Changes" comment="last hidden state lcs">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/train_pitt_bert.py" beforeDir="false" afterPath="$PROJECT_DIR$/train_pitt_bert.py" afterDir="false" />
     </list>
@@ -197,7 +197,7 @@
       <workItem from="1692751699011" duration="8020000" />
       <workItem from="1692778568718" duration="14375000" />
       <workItem from="1692836869473" duration="18530000" />
-      <workItem from="1692935218842" duration="5576000" />
+      <workItem from="1692935218842" duration="6805000" />
     </task>
     <task id="LOCAL-00001" summary="using bert tiny&#10;hidden dimension=128">
       <created>1692628211491</created>
@@ -367,7 +367,14 @@
       <option name="project" value="LOCAL" />
       <updated>1692937250702</updated>
     </task>
-    <option name="localTasksCounter" value="25" />
+    <task id="LOCAL-00025" summary="last hidden state lcs">
+      <created>1692960652707</created>
+      <option name="number" value="00025" />
+      <option name="presentableId" value="LOCAL-00025" />
+      <option name="project" value="LOCAL" />
+      <updated>1692960652707</updated>
+    </task>
+    <option name="localTasksCounter" value="26" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -418,7 +425,8 @@
     <MESSAGE value="to observe step loss using tensorboard" />
     <MESSAGE value="learning rate set to 0.001" />
     <MESSAGE value="learning rate set to 3e-4" />
-    <option name="LAST_COMMIT_MESSAGE" value="learning rate set to 3e-4" />
+    <MESSAGE value="last hidden state lcs" />
+    <option name="LAST_COMMIT_MESSAGE" value="last hidden state lcs" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
