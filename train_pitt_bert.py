@@ -535,6 +535,7 @@ def run_training(config, prefix):
             np.save("./{}/lrs_{}.npy".format(path, seed), lrs)
             print(f"Epoch {epoch + 1}: loss = {train_loss:.4f}\t val loss = {val_loss:.4f}")
 
+
         if (epoch % config['progress_plot_freq'] == 0 and len(y_train_true) >= 4):
             progress_plots(epoch, y_train_true, y_train_pred, y_val_true, y_val_pred, path, seed=seed)
 
@@ -617,8 +618,7 @@ if __name__ == '__main__':
     ]:
         for lr in [
             # 0.001,
-            3e-4
-            # 1e-4
+            1e-4
         ]:
             for weight_decay in [
                 # 0.1,
