@@ -648,7 +648,8 @@ if __name__ == '__main__':
         for lr in [
             # 0.001,
             # 1e-4,
-            1e-5
+            3e-5,
+            # 1e-5
         ]:
             for weight_decay in [
                 # 0.1,
