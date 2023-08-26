@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="71938756-4a9f-4dff-8746-84a762b75e02" name="Changes" comment="change precision of loss to .6f" />
+    <list default="true" id="71938756-4a9f-4dff-8746-84a762b75e02" name="Changes" comment="learning rate to 3e-5" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -196,7 +196,7 @@
       <workItem from="1692778568718" duration="14375000" />
       <workItem from="1692836869473" duration="18530000" />
       <workItem from="1692935218842" duration="6896000" />
-      <workItem from="1693008014804" duration="4572000" />
+      <workItem from="1693008014804" duration="5369000" />
     </task>
     <task id="LOCAL-00001" summary="using bert tiny&#10;hidden dimension=128">
       <created>1692628211491</created>
@@ -394,7 +394,21 @@
       <option name="project" value="LOCAL" />
       <updated>1693012491934</updated>
     </task>
-    <option name="localTasksCounter" value="29" />
+    <task id="LOCAL-00029" summary="change precision of loss to .6f">
+      <created>1693013286770</created>
+      <option name="number" value="00029" />
+      <option name="presentableId" value="LOCAL-00029" />
+      <option name="project" value="LOCAL" />
+      <updated>1693013286770</updated>
+    </task>
+    <task id="LOCAL-00030" summary="learning rate to 3e-5">
+      <created>1693013354537</created>
+      <option name="number" value="00030" />
+      <option name="presentableId" value="LOCAL-00030" />
+      <option name="project" value="LOCAL" />
+      <updated>1693013354537</updated>
+    </task>
+    <option name="localTasksCounter" value="31" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -449,7 +463,8 @@
     <MESSAGE value="last hidden state lcs unfrozen from scratch" />
     <MESSAGE value="tuning unfrozen lhs cls" />
     <MESSAGE value="change precision of loss to .6f" />
-    <option name="LAST_COMMIT_MESSAGE" value="change precision of loss to .6f" />
+    <MESSAGE value="learning rate to 3e-5" />
+    <option name="LAST_COMMIT_MESSAGE" value="learning rate to 3e-5" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
