@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="71938756-4a9f-4dff-8746-84a762b75e02" name="Changes" comment="learning rate to 1e-4">
+    <list default="true" id="71938756-4a9f-4dff-8746-84a762b75e02" name="Changes" comment="learning rate to 3e-5, weight decay to 1e-8">
+      <change afterPath="$PROJECT_DIR$/pretrained_model_dict/FusionBert_pitt_32_1e-4_1e-6_0.0_lhs_frozen.pt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/train_pitt_bert.py" beforeDir="false" afterPath="$PROJECT_DIR$/train_pitt_bert.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/configs/pitt_config.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/configs/pitt_config.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/models/pitt.py" beforeDir="false" afterPath="$PROJECT_DIR$/models/pitt.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -30,18 +32,18 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "ASKED_ADD_EXTERNAL_FILES": "true",
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "WebServerToolWindowFactoryState": "false",
-    "last_opened_file_path": "C:/Users/34707/Desktop/PITT_BERT/pretrained_model_dict",
-    "nodejs_package_manager_path": "npm",
-    "settings.editor.selected.configurable": "com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable",
-    "two.files.diff.last.used.file": "C:/Users/34707/Desktop/PITT_BERT/train_pitt_bert.py"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;ASKED_ADD_EXTERNAL_FILES&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/34707/Desktop/PITT_BERT/pretrained_model_dict&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable&quot;,
+    &quot;two.files.diff.last.used.file&quot;: &quot;C:/Users/34707/Desktop/PITT_BERT/train_pitt_bert.py&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\Users\34707\Desktop\PITT_BERT\pretrained_model_dict" />
@@ -199,7 +201,8 @@
       <workItem from="1692778568718" duration="14375000" />
       <workItem from="1692836869473" duration="18530000" />
       <workItem from="1692935218842" duration="6896000" />
-      <workItem from="1693008014804" duration="6827000" />
+      <workItem from="1693008014804" duration="7285000" />
+      <workItem from="1693034969060" duration="1841000" />
     </task>
     <task id="LOCAL-00001" summary="using bert tiny&#10;hidden dimension=128">
       <created>1692628211491</created>
@@ -418,7 +421,14 @@
       <option name="project" value="LOCAL" />
       <updated>1693014020261</updated>
     </task>
-    <option name="localTasksCounter" value="32" />
+    <task id="LOCAL-00032" summary="learning rate to 3e-5, weight decay to 1e-8">
+      <created>1693018328068</created>
+      <option name="number" value="00032" />
+      <option name="presentableId" value="LOCAL-00032" />
+      <option name="project" value="LOCAL" />
+      <updated>1693018328068</updated>
+    </task>
+    <option name="localTasksCounter" value="33" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -475,7 +485,8 @@
     <MESSAGE value="change precision of loss to .6f" />
     <MESSAGE value="learning rate to 3e-5" />
     <MESSAGE value="learning rate to 1e-4" />
-    <option name="LAST_COMMIT_MESSAGE" value="learning rate to 1e-4" />
+    <MESSAGE value="learning rate to 3e-5, weight decay to 1e-8" />
+    <option name="LAST_COMMIT_MESSAGE" value="learning rate to 3e-5, weight decay to 1e-8" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -502,28 +513,23 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/models/pitt.py</url>
-          <line>571</line>
+          <line>573</line>
           <option name="timeStamp" value="107" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/models/pitt.py</url>
-          <line>432</line>
+          <line>434</line>
           <option name="timeStamp" value="112" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/models/pitt.py</url>
-          <line>419</line>
+          <line>421</line>
           <option name="timeStamp" value="115" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/models/pitt.py</url>
-          <line>393</line>
+          <line>395</line>
           <option name="timeStamp" value="123" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/train_pitt_bert.py</url>
-          <line>179</line>
-          <option name="timeStamp" value="125" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
@@ -541,7 +547,7 @@
     <SUITE FILE_PATH="coverage/PITT_BERT$train_pitt.coverage" NAME="train_pitt Coverage Results" MODIFIED="1692527187429" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/PITT_BERT$train_pitt_bert_step_loss.coverage" NAME="train_pitt_bert_step_loss Coverage Results" MODIFIED="1692951361824" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/PITT_BERT$generate_1d_data_bert.coverage" NAME="generate_1d_data_bert Coverage Results" MODIFIED="1692623764530" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/data_generation" />
-    <SUITE FILE_PATH="coverage/PITT_BERT$train_pitt_bert.coverage" NAME="train_pitt_bert Coverage Results" MODIFIED="1693009133386" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/PITT_BERT$train_pitt_bert.coverage" NAME="train_pitt_bert Coverage Results" MODIFIED="1693040792844" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/PITT_BERT$try_bert.coverage" NAME="try_bert Coverage Results" MODIFIED="1692352772404" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/PITT_BERT$generate_1d_data_bert__1_.coverage" NAME="generate_1d_data_bert (1) Coverage Results" MODIFIED="1692501076578" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/data_generation" />
     <SUITE FILE_PATH="coverage/PITT_BERT$try_sympy.coverage" NAME="try_sympy Coverage Results" MODIFIED="1692604024127" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
