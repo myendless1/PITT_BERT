@@ -15,7 +15,7 @@ import numpy as np
 import os
 import shutil
 
-from models.pitt import PhysicsInformedTokenTransformer
+from models.pitt import PhysicsInformedTokenTransformerBert
 from models.pitt import StandardPhysicsInformedTokenTransformer
 
 from models.oformer import Encoder1D, STDecoder1D, OFormer1D, PointWiseDecoder1D
@@ -146,9 +146,9 @@ def get_transformer(model_name, neural_operator, config):
                                                               neural_operator=neural_operator).to(device=device)
     elif (config['embedding'] == 'novel'):
         print("\nUSING NOVEL EMBEDDING")
-        transformer = PhysicsInformedTokenTransformer(500, config['hidden'], config['layers'], config['heads'],
-                                                      config['num_x'], dropout=config['dropout'], bert_model=bert_model,
-                                                      neural_operator=neural_operator).to(device=device)
+        transformer = PhysicsInformedTokenTransformerBert(500, config['hidden'], config['layers'], config['heads'],
+                                                          config['num_x'], dropout=config['dropout'], bert_model=bert_model,
+                                                          neural_operator=neural_operator).to(device=device)
     return transformer
 
 

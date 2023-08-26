@@ -273,7 +273,7 @@ class LinearAttention(nn.Module):
         return self.to_out(out), self.to_q.weight
 
 
-class PhysicsInformedTokenTransformer(nn.Module):
+class PhysicsInformedTokenTransformerBert(nn.Module):
     def __init__(self, input_dim, hidden_dim, num_layers, num_heads, output_dim, neural_operator, bert_model,
                  dropout=0.1):
         super().__init__()

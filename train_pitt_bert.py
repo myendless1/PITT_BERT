@@ -14,7 +14,7 @@ import numpy as np
 import os
 import shutil
 
-from models.pitt import PhysicsInformedTokenTransformer
+from models.pitt import PhysicsInformedTokenTransformerBert
 from models.pitt import StandardPhysicsInformedTokenTransformer
 
 from models.oformer import Encoder1D, STDecoder1D, OFormer1D, PointWiseDecoder1D
@@ -145,9 +145,39 @@ def get_transformer(model_name, neural_operator, config):
                                                               neural_operator=neural_operator).to(device=device)
     elif (config['embedding'] == 'novel'):
         print("\nUSING NOVEL EMBEDDING")
-        transformer = PhysicsInformedTokenTransformer(500, config['hidden'], config['layers'], config['heads'],
-                                                      config['num_x'], dropout=config['dropout'], bert_model=bert_model,
-                                                      neural_operator=neural_operator).to(device=device)
+        transformer = PhysicsInformedTokenTransformerBert(500, config['hidden'], config['layers'], config['heads'],
+                                                          config['num_x'], dropout=config['dropout'],
+                                                          bert_model=bert_model,
+                                                          neural_operator=neural_operator).to(device=device)
+    return transformer
+
+
+def get_transformer_tuning(model_name, neural_operator, config):
+    global transformer
+    model_config = BertConfig.from_pretrained('models/BERT/bert-tiny/bert_config.json')
+    model_path = 'models/BERT/bert-tiny'
+    # 修改配置
+    model_config.output_hidden_states = True
+    model_config.output_attentions = False
+    # 通过配置和路径导入模型
+    bert_model = BertModel.from_pretrained(model_path, config=model_config, ignore_mismatched_sizes=True)
+    for name, parameter in bert_model.named_parameters():
+        parameter.requires_grad = True
+    if config['embedding'] == 'standard':
+        print("\nUSING STANDARD EMBEDDING")
+        transformer = StandardPhysicsInformedTokenTransformer(500, config['hidden'], config['layers'], config['heads'],
+                                                              config['num_x'], dropout=config['dropout'],
+                                                              bert_model=bert_model,
+                                                              neural_operator=neural_operator).to(device=device)
+    elif (config['embedding'] == 'novel'):
+        print("\nUSING NOVEL EMBEDDING")
+        transformer = PhysicsInformedTokenTransformerBert(500, config['hidden'], config['layers'], config['heads'],
+                                                          config['num_x'], dropout=config['dropout'],
+                                                          bert_model=bert_model,
+                                                          neural_operator=neural_operator).to(
+            device=device)
+
+    transformer.load_state_dict(torch.load(config['fusion_model_path'])['model_state_dict'])
     return transformer
 
 
@@ -437,7 +467,7 @@ def run_training(config, prefix):
                                                         burgers_config)
 
     neural_operator = get_neural_operator(config['neural_operator'], config)
-    transformer = get_transformer(config['transformer'], neural_operator, config)
+    transformer = get_transformer_tuning(config['transformer'], neural_operator, config)
 
     total_params = sum(p.numel() for p in transformer.parameters() if p.requires_grad)
     print(f'Total parameters = {total_params}')
@@ -535,7 +565,6 @@ def run_training(config, prefix):
             np.save("./{}/lrs_{}.npy".format(path, seed), lrs)
             print(f"Epoch {epoch + 1}: loss = {train_loss:.4f}\t val loss = {val_loss:.4f}")
 
-
         if (epoch % config['progress_plot_freq'] == 0 and len(y_train_true) >= 4):
             progress_plots(epoch, y_train_true, y_train_pred, y_val_true, y_val_pred, path, seed=seed)
 
@@ -618,7 +647,8 @@ if __name__ == '__main__':
     ]:
         for lr in [
             # 0.001,
-            1e-4
+            # 1e-4,
+            1e-5
         ]:
             for weight_decay in [
                 # 0.1,

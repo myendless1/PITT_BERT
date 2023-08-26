@@ -11,6 +11,7 @@ args:
     embedding: 'novel'
 
     base_path: './pde_data/'
+    fusion_model_path: './pretrained_model_dict/FusionBert_pitt_32_1e-4_1e-6_0.0_lhs_unfrozen.pt'
     continue_training: False
     forcing: False
     rollout_length: 1
