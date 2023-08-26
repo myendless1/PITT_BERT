@@ -563,7 +563,7 @@ def run_training(config, prefix):
             np.save("./{}/train_l2s_{}.npy".format(path, seed), train_losses)
             np.save("./{}/val_l2s_{}.npy".format(path, seed), val_losses)
             np.save("./{}/lrs_{}.npy".format(path, seed), lrs)
-            print(f"Epoch {epoch + 1}: loss = {train_loss:.4f}\t val loss = {val_loss:.4f}")
+            print(f"Epoch {epoch + 1}: loss = {train_loss:.6f}\t val loss = {val_loss:.6f}")
 
         if (epoch % config['progress_plot_freq'] == 0 and len(y_train_true) >= 4):
             progress_plots(epoch, y_train_true, y_train_pred, y_val_true, y_val_pred, path, seed=seed)
