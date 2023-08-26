@@ -521,7 +521,7 @@ def run_training(config, prefix):
             scheduler.step()
 
             if (bn % 1000 == 0 and len(train_loader) >= 1000):
-                print("Batch: {0}\tloss = {1:.4f}".format(bn, train_loss / (bn + 1)))
+                print("Batch: {0}\tloss = {1:.6f}".format(bn, train_loss / (bn + 1)))
 
         # scheduler.step()
 
