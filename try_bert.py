@@ -7,7 +7,6 @@ import torch
 from transformers import BertTokenizer, BertConfig, BertForMaskedLM, BertForNextSentencePrediction
 from transformers import BertModel
 
-from bert.vocab import Vocab
 
 model_name = 'bert-base-uncased'
 MODEL_PATH = 'C:\\Users\\34707\\Desktop\\PITT_BERT\\models\\BERT\\bert-base-uncased'
@@ -33,10 +32,6 @@ decoded_tokens = tokenizer.decode(tokens)
 print(tokenizer.decode(tokens))
 
 
-def build_vocab(model_path):
-    return Vocab(model_path)
-
-
 def load_moel(model_path):
     loaded_paras = torch.load(f"{model_path}/pytorch_model.bin")
     # print(type(loaded_paras))
@@ -44,32 +39,6 @@ def load_moel(model_path):
     # print(list(loaded_paras.keys()))
     # for name in loaded_paras.keys():
     #     print(f"### 参数名:{name},形状:{loaded_paras[name].size()}")
-
-
-class LoadSingleSentenceClassificationDataset:
-    def __init__(self,
-                 model_path='.\models\\BERT\\bert-base-uncased',
-                 tokenizer=None,
-                 batch_size=32,
-                 max_sen_len=None,
-                 split_sep='\n',
-                 max_position_embeddings=512,
-                 pad_inex=0,
-                 is_sample_shuffle=True
-                 ):
-        self.tokenizer = tokenizer
-        self.vocab = build_vocab(model_path)
-        self.PAD_IDX = pad_inex
-        self.SEP_IDX = self.vocab['[SEP]']
-        self.CLS_IDX = self.vocab['[CLS]']
-        self.batch_size = batch_size
-        self.split_sep = split_sep
-        self.max_position_embeddings = max_position_embeddings
-        if isinstance(max_sen_len, int) and max_sen_len > max_position_embeddings:
-            max_sen_len = max_position_embeddings
-        self.max_sen_len = max_position_embeddings
-        self.is_sample_shuffle = is_sample_shuffle
-
 
 class BertConfig(object):
     def __init__(self,
@@ -112,7 +81,6 @@ class BertConfig(object):
 
 
 if __name__ == '__main__':
-    vocab = build_vocab(MODEL_PATH)
     model = load_moel(MODEL_PATH)
 
     hidden_dimension = 64

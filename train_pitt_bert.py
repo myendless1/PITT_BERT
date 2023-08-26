@@ -467,7 +467,8 @@ def run_training(config, prefix):
                                                         burgers_config)
 
     neural_operator = get_neural_operator(config['neural_operator'], config)
-    transformer = get_transformer_tuning(config['transformer'], neural_operator, config)
+    # transformer = get_transformer_tuning(config['transformer'], neural_operator, config)
+    transformer = get_transformer(config['transformer'], neural_operator, config)
 
     total_params = sum(p.numel() for p in transformer.parameters() if p.requires_grad)
     print(f'Total parameters = {total_params}')
