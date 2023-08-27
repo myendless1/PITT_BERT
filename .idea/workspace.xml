@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="71938756-4a9f-4dff-8746-84a762b75e02" name="Changes" comment="tuning hs[0]">
+    <list default="true" id="71938756-4a9f-4dff-8746-84a762b75e02" name="Changes" comment="train fusion bert full hs[0] unfrozen">
+      <change afterPath="$PROJECT_DIR$/env.sh" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/try_bert.py" beforeDir="false" afterPath="$PROJECT_DIR$/try_bert.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/configs/pitt_config.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/configs/pitt_config.yaml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -201,6 +202,8 @@
       <workItem from="1692935218842" duration="6896000" />
       <workItem from="1693008014804" duration="7285000" />
       <workItem from="1693034969060" duration="7170000" />
+      <workItem from="1693060289498" duration="836000" />
+      <workItem from="1693100648496" duration="2949000" />
     </task>
     <task id="LOCAL-00001" summary="using bert tiny&#10;hidden dimension=128">
       <created>1692628211491</created>
@@ -433,7 +436,14 @@
       <option name="project" value="LOCAL" />
       <updated>1693041016531</updated>
     </task>
-    <option name="localTasksCounter" value="34" />
+    <task id="LOCAL-00034" summary="train fusion bert full hs[0] unfrozen">
+      <created>1693060527838</created>
+      <option name="number" value="00034" />
+      <option name="presentableId" value="LOCAL-00034" />
+      <option name="project" value="LOCAL" />
+      <updated>1693060527838</updated>
+    </task>
+    <option name="localTasksCounter" value="35" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -450,7 +460,7 @@
                   <entry key="branch">
                     <value>
                       <list>
-                        <option value="origin/master" />
+                        <option value="master" />
                       </list>
                     </value>
                   </entry>
@@ -466,7 +476,6 @@
     <ignored-roots>
       <path value="$PROJECT_DIR$/bert-base-uncased" />
     </ignored-roots>
-    <MESSAGE value="use raw datafile provided as data to train" />
     <MESSAGE value="to train pitt 1D fusion model using bert" />
     <MESSAGE value="use raw datafile provided as data to train;to train pitt 1D fusion model using bert" />
     <MESSAGE value="train pitt_bert for best super parameters" />
@@ -491,7 +500,8 @@
     <MESSAGE value="learning rate to 1e-4" />
     <MESSAGE value="learning rate to 3e-5, weight decay to 1e-8" />
     <MESSAGE value="tuning hs[0]" />
-    <option name="LAST_COMMIT_MESSAGE" value="tuning hs[0]" />
+    <MESSAGE value="train fusion bert full hs[0] unfrozen" />
+    <option name="LAST_COMMIT_MESSAGE" value="train fusion bert full hs[0] unfrozen" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
