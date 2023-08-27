@@ -683,7 +683,7 @@ class TransformerOperatorDatasetBert(Dataset):
         self.ssl = ssl
         self.forcing = forcing
 
-        self.tokenizer = BertTokenizer.from_pretrained('bert-base-uncased')
+        self.tokenizer = BertTokenizer.from_pretrained('models/BERT/bert-tiny')
 
         # Extract list of seeds
         print("\nSEED: {}".format(seed))
