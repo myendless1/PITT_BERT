@@ -151,7 +151,7 @@ def get_transformer(model_name, neural_operator, config):
                                                           neural_operator=neural_operator).to(device=device)
     return transformer
 
-
+#TODO abandon this method
 def get_transformer_tuning(model_name, neural_operator, config):
     global transformer
     model_config = BertConfig.from_pretrained('models/BERT/bert-tiny/bert_config.json')
