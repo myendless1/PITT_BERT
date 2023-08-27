@@ -1,10 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="71938756-4a9f-4dff-8746-84a762b75e02" name="Changes" comment="train fusion bert full hs[0] unfrozen">
+    <list default="true" id="71938756-4a9f-4dff-8746-84a762b75e02" name="Changes" comment="fix use bert-tiny tokenizer">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/train_pitt_bert.py" beforeDir="false" afterPath="$PROJECT_DIR$/train_pitt_bert.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/try_bert.py" beforeDir="false" afterPath="$PROJECT_DIR$/try_bert.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -37,18 +35,18 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;ASKED_ADD_EXTERNAL_FILES&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Users/34707/Desktop/PITT_BERT/pretrained_model_dict&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable&quot;,
-    &quot;two.files.diff.last.used.file&quot;: &quot;C:/Users/34707/Desktop/PITT_BERT/train_pitt_bert.py&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "ASKED_ADD_EXTERNAL_FILES": "true",
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "WebServerToolWindowFactoryState": "false",
+    "last_opened_file_path": "C:/Users/34707/Desktop/PITT_BERT/models/BERT/bert-large-uncased/config.json",
+    "nodejs_package_manager_path": "npm",
+    "settings.editor.selected.configurable": "com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable",
+    "two.files.diff.last.used.file": "C:/Users/34707/Desktop/PITT_BERT/models/BERT/bert-large-uncased/config.json"
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\Users\34707\Desktop\PITT_BERT\pretrained_model_dict" />
@@ -212,7 +210,7 @@
       <workItem from="1693100648496" duration="4517000" />
       <workItem from="1693118081083" duration="23000" />
       <workItem from="1693118719044" duration="9000" />
-      <workItem from="1693141343322" duration="421000" />
+      <workItem from="1693141343322" duration="3033000" />
     </task>
     <task id="LOCAL-00001" summary="using bert tiny&#10;hidden dimension=128">
       <created>1692628211491</created>
@@ -459,11 +457,36 @@
       <option name="project" value="LOCAL" />
       <updated>1693106598247</updated>
     </task>
-    <option name="localTasksCounter" value="36" />
+    <task id="LOCAL-00036" summary="fix use bert-tiny tokenizer">
+      <created>1693141894146</created>
+      <option name="number" value="00036" />
+      <option name="presentableId" value="LOCAL-00036" />
+      <option name="project" value="LOCAL" />
+      <updated>1693141894146</updated>
+    </task>
+    <task id="LOCAL-00037" summary="fix use bert-tiny tokenizer">
+      <created>1693141951623</created>
+      <option name="number" value="00037" />
+      <option name="presentableId" value="LOCAL-00037" />
+      <option name="project" value="LOCAL" />
+      <updated>1693141951623</updated>
+    </task>
+    <option name="localTasksCounter" value="38" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.History.Properties">
+    <option name="COLUMN_ID_ORDER">
+      <list>
+        <option value="Default.Root" />
+        <option value="Default.Author" />
+        <option value="Default.Date" />
+        <option value="Default.Subject" />
+        <option value="Space.CommitStatus" />
+      </list>
+    </option>
   </component>
   <component name="Vcs.Log.Tabs.Properties">
     <option name="TAB_STATES">
@@ -492,7 +515,6 @@
     <ignored-roots>
       <path value="$PROJECT_DIR$/bert-base-uncased" />
     </ignored-roots>
-    <MESSAGE value="to train pitt 1D fusion model using bert" />
     <MESSAGE value="use raw datafile provided as data to train;to train pitt 1D fusion model using bert" />
     <MESSAGE value="train pitt_bert for best super parameters" />
     <MESSAGE value="batch_size=32,lr=1e-3,weight_decay=0.1,dropout=0,num_samples=1000" />
@@ -517,7 +539,8 @@
     <MESSAGE value="learning rate to 3e-5, weight decay to 1e-8" />
     <MESSAGE value="tuning hs[0]" />
     <MESSAGE value="train fusion bert full hs[0] unfrozen" />
-    <option name="LAST_COMMIT_MESSAGE" value="train fusion bert full hs[0] unfrozen" />
+    <MESSAGE value="fix use bert-tiny tokenizer" />
+    <option name="LAST_COMMIT_MESSAGE" value="fix use bert-tiny tokenizer" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
