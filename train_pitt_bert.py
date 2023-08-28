@@ -128,8 +128,8 @@ def get_neural_operator(model_name, config):
 
 def get_transformer(model_name, neural_operator, config):
     global transformer
-    model_config = BertConfig.from_pretrained('bert-large-uncased')
-    model_path = 'bert-large-uncased'
+    model_config = BertConfig.from_pretrained('bert-base-uncased')
+    model_path = 'bert-base-uncased'
     # 修改配置
     model_config.output_hidden_states = True
     model_config.output_attentions = False
@@ -154,8 +154,8 @@ def get_transformer(model_name, neural_operator, config):
 #TODO abandon this method
 def get_transformer_tuning(model_name, neural_operator, config):
     global transformer
-    model_config = BertConfig.from_pretrained('bert-large-uncased')
-    model_path = 'bert-large-uncased'
+    model_config = BertConfig.from_pretrained('bert-base-uncased')
+    model_path = 'bert-base-uncased'
     # 修改配置
     model_config.output_hidden_states = True
     model_config.output_attentions = False
