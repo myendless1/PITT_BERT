@@ -296,6 +296,8 @@ class PhysicsInformedTokenTransformerBert(nn.Module):
         # bert_embedding_linear
         self.embedding_linear = nn.Linear(500, 100, bias=False)
 
+        self.hidden_embedding_linear = nn.Linear(1024, hidden_dim, bias=False)
+
         self.kh1_embedding = nn.Linear(hidden_dim, hidden_dim, bias=False)
         self.kh2_embedding = nn.Linear(hidden_dim, hidden_dim, bias=False)
 
@@ -392,6 +394,8 @@ class PhysicsInformedTokenTransformerBert(nn.Module):
         # bert_embedding = bert_embedding['hidden_states'][0].to(device)
         bert_embedding = bert_embedding['last_hidden_state'].to(device)
         token_embedding = torch.swapaxes(self.embedding_linear(torch.swapaxes(bert_embedding, 1, 2)), 1, 2)
+        # for bert large
+        token_embedding = self.hidden_embedding_linear(token_embedding)
 
         # bert_embedding = bert_embedding['hidden_states'][0][:, 0:1, :].to(device)
         # bert_embedding = bert_embedding['last_hidden_state'][:, 0:1, :].to(device)
