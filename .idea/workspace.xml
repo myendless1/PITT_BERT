@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="71938756-4a9f-4dff-8746-84a762b75e02" name="Changes" comment="bert-large lhs frozen">
+    <list default="true" id="71938756-4a9f-4dff-8746-84a762b75e02" name="Changes" comment="train bert base">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/train_pitt_bert.py" beforeDir="false" afterPath="$PROJECT_DIR$/train_pitt_bert.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/utils.py" beforeDir="false" afterPath="$PROJECT_DIR$/utils.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -217,6 +219,7 @@
       <workItem from="1693213372140" duration="1578000" />
       <workItem from="1693225889475" duration="727000" />
       <workItem from="1693265792090" duration="12000" />
+      <workItem from="1693266057802" duration="772000" />
     </task>
     <task id="LOCAL-00001" summary="using bert tiny&#10;hidden dimension=128">
       <created>1692628211491</created>
@@ -512,7 +515,21 @@
       <option name="project" value="LOCAL" />
       <updated>1693219230355</updated>
     </task>
-    <option name="localTasksCounter" value="43" />
+    <task id="LOCAL-00043" summary="train bert base">
+      <created>1693266333461</created>
+      <option name="number" value="00043" />
+      <option name="presentableId" value="LOCAL-00043" />
+      <option name="project" value="LOCAL" />
+      <updated>1693266333461</updated>
+    </task>
+    <task id="LOCAL-00044" summary="train bert base">
+      <created>1693266515638</created>
+      <option name="number" value="00044" />
+      <option name="presentableId" value="LOCAL-00044" />
+      <option name="project" value="LOCAL" />
+      <updated>1693266515638</updated>
+    </task>
+    <option name="localTasksCounter" value="45" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -556,7 +573,6 @@
     <ignored-roots>
       <path value="$PROJECT_DIR$/bert-base-uncased" />
     </ignored-roots>
-    <MESSAGE value="batch_size=32,lr=1e-3,weight_decay=0.1,dropout=0,num_samples=1000" />
     <MESSAGE value="expand from 128,1,128 in bert embedding to 128,100,128" />
     <MESSAGE value="weight decay set to 1e-4" />
     <MESSAGE value="retry bert with embedding_linear(500,100)" />
@@ -581,7 +597,8 @@
     <MESSAGE value="fix use bert-tiny tokenizer" />
     <MESSAGE value="train pitt bert full lhs unfrozen" />
     <MESSAGE value="bert-large lhs frozen" />
-    <option name="LAST_COMMIT_MESSAGE" value="bert-large lhs frozen" />
+    <MESSAGE value="train bert base" />
+    <option name="LAST_COMMIT_MESSAGE" value="train bert base" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
