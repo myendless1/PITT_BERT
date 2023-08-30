@@ -168,7 +168,7 @@ from transformers import BertTokenizer
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 device = 'cpu'
 
-MODEL_PATH = 'models/BERT/bert-base-uncased'
+MODEL_PATH = 'models/BERT/bert-tiny'
 
 
 class TransformerOperatorDataset(Dataset):
