@@ -517,12 +517,12 @@ def run_training(config, prefix):
             # Backward pass: compute gradient of the loss with respect to model
             # parameters.
             optimizer.zero_grad()
+            loss.backward()
             loss_time = time.time()
             print(f"loss_time={loss_time - pred_time}")
-            loss.backward()
-            backward_time = time.time()
-            print(f"back_time={backward_time - loss_time}")
             optimizer.step()
+            backward_time = time.time()
+            print(f"step_time={backward_time - loss_time}")
             lrs.append(optimizer.state_dict()['param_groups'][0]['lr'])
 
 
