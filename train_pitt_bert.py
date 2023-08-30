@@ -415,7 +415,7 @@ def run_training(config, prefix):
         'rollout_length': 1,
         'seed': config['seed'],
 
-        'batch_size': 128,
+        'batch_size': config['batch_size'],
         'num_workers': 0,
 
     }
@@ -436,7 +436,7 @@ def run_training(config, prefix):
         'rollout_length': 1,
         'seed': config['seed'],
 
-        'batch_size': 128,
+        'batch_size': config['batch_size'],
         'num_workers': 0,
 
     }
@@ -457,7 +457,7 @@ def run_training(config, prefix):
         'rollout_length': 1,
         'seed': config['seed'],
 
-        'batch_size': 128,
+        'batch_size': config['batch_size'],
         'num_workers': 0,
 
     }
@@ -654,9 +654,9 @@ if __name__ == '__main__':
     train_args = config['args']
     # file = open("loss_compare.log", "w")
     for batch_size in [
-        # 32,
+        32,
         # 64,
-        128
+        # 128
     ]:
         for lr in [
             # 0.001,
@@ -683,9 +683,9 @@ if __name__ == '__main__':
                     # frames for each equation) thus 900 data in heat, burgers and KdV respectively. Training rate =
                     # 0.6 thus total training set size is 1620 when num_samples=10.
                     for num_samples in [
-                        10,
+                        # 10,
                         # 100,
-                        # 1000
+                        1000
                     ]:
                         prefix = train_args['flnm'] + "_" + train_args['data_name'].split("_")[0] + "_" + train_args[
                             'train_style'] + "_" + \

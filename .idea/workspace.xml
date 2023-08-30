@@ -2,8 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="71938756-4a9f-4dff-8746-84a762b75e02" name="Changes" comment="debug running time">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/models/pitt.py" beforeDir="false" afterPath="$PROJECT_DIR$/models/pitt.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/train_pitt_bert.py" beforeDir="false" afterPath="$PROJECT_DIR$/train_pitt_bert.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -220,21 +219,7 @@
       <workItem from="1693265792090" duration="12000" />
       <workItem from="1693266057802" duration="2518000" />
       <workItem from="1693295849102" duration="3914000" />
-      <workItem from="1693357452225" duration="4401000" />
-    </task>
-    <task id="LOCAL-00008" summary="train pitt_bert for best super parameters">
-      <created>1692703836444</created>
-      <option name="number" value="00008" />
-      <option name="presentableId" value="LOCAL-00008" />
-      <option name="project" value="LOCAL" />
-      <updated>1692703836444</updated>
-    </task>
-    <task id="LOCAL-00009" summary="batch_size=32,lr=1e-3,weight_decay=0.1,dropout=0,num_samples=1000">
-      <created>1692713308407</created>
-      <option name="number" value="00009" />
-      <option name="presentableId" value="LOCAL-00009" />
-      <option name="project" value="LOCAL" />
-      <updated>1692713308407</updated>
+      <workItem from="1693357452225" duration="4802000" />
     </task>
     <task id="LOCAL-00010" summary="batch_size=32,lr=1e-3,weight_decay=0.1,dropout=0,num_samples=1000">
       <created>1692713784169</created>
@@ -565,7 +550,21 @@
       <option name="project" value="LOCAL" />
       <updated>1693360988782</updated>
     </task>
-    <option name="localTasksCounter" value="57" />
+    <task id="LOCAL-00057" summary="debug running time">
+      <created>1693361894532</created>
+      <option name="number" value="00057" />
+      <option name="presentableId" value="LOCAL-00057" />
+      <option name="project" value="LOCAL" />
+      <updated>1693361894532</updated>
+    </task>
+    <task id="LOCAL-00058" summary="debug running time">
+      <created>1693362005708</created>
+      <option name="number" value="00058" />
+      <option name="presentableId" value="LOCAL-00058" />
+      <option name="project" value="LOCAL" />
+      <updated>1693362005708</updated>
+    </task>
+    <option name="localTasksCounter" value="59" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -665,6 +664,11 @@
           <line>522</line>
           <option name="timeStamp" value="138" />
         </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/train_pitt_bert.py</url>
+          <line>505</line>
+          <option name="timeStamp" value="139" />
+        </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
   </component>
@@ -673,7 +677,7 @@
     <SUITE FILE_PATH="coverage/PITT_BERT$train_pitt.coverage" NAME="train_pitt Coverage Results" MODIFIED="1692527187429" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/PITT_BERT$train_pitt_bert_step_loss.coverage" NAME="train_pitt_bert_step_loss Coverage Results" MODIFIED="1692951361824" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/PITT_BERT$generate_1d_data_bert.coverage" NAME="generate_1d_data_bert Coverage Results" MODIFIED="1692623764530" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/data_generation" />
-    <SUITE FILE_PATH="coverage/PITT_BERT$train_pitt_bert.coverage" NAME="train_pitt_bert Coverage Results" MODIFIED="1693361137544" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/PITT_BERT$train_pitt_bert.coverage" NAME="train_pitt_bert Coverage Results" MODIFIED="1693362289989" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/PITT_BERT$try_sympy.coverage" NAME="try_sympy Coverage Results" MODIFIED="1692604024127" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/PITT_BERT$generate_1d_data_bert__1_.coverage" NAME="generate_1d_data_bert (1) Coverage Results" MODIFIED="1693141569699" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/data_generation" />
     <SUITE FILE_PATH="coverage/PITT_BERT$try_bert.coverage" NAME="try_bert Coverage Results" MODIFIED="1693141756878" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
