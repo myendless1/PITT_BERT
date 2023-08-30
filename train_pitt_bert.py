@@ -21,6 +21,8 @@ from models.oformer import Encoder1D, STDecoder1D, OFormer1D, PointWiseDecoder1D
 from models.fno import FNO1d
 from models.deeponet import DeepONet1D
 
+from utils import MODEL_PATH
+
 device = torch.device('cuda' if (torch.cuda.is_available()) else 'cpu')
 
 
@@ -125,17 +127,15 @@ def get_neural_operator(model_name, config):
     neural_operator.to(device)
     return neural_operator
 
-
 def get_transformer(model_name, neural_operator, config):
     global transformer
-    model_config = BertConfig.from_pretrained('models/BERT/bert-base-uncased')
-    model_path = 'models/BERT/bert-base-uncased'
+    model_config = BertConfig.from_pretrained(MODEL_PATH)
+    model_path = MODEL_PATH
     # 修改配置
     model_config.output_hidden_states = True
     model_config.output_attentions = False
     # 通过配置和路径导入模型
     bert_model = BertModel.from_pretrained(model_path, config=model_config, ignore_mismatched_sizes=True)
-    # bert_model = AutoModelForMaskedLM.from_pretrained("bert-base-uncased")
     for name, parameter in bert_model.named_parameters():
         parameter.requires_grad = False
     if config['embedding'] == 'standard':
@@ -156,14 +156,13 @@ def get_transformer(model_name, neural_operator, config):
 # TODO abandon this method
 def get_transformer_tuning(model_name, neural_operator, config):
     global transformer
-    model_config = BertConfig.from_pretrained('models/BERT/bert-base-uncased')
-    model_path = 'models/BERT/bert-base-uncased'
+    model_config = BertConfig.from_pretrained(MODEL_PATH)
+    model_path = MODEL_PATH
     # 修改配置
     model_config.output_hidden_states = True
     model_config.output_attentions = False
     # 通过配置和路径导入模型
     bert_model = BertModel.from_pretrained(model_path, config=model_config, ignore_mismatched_sizes=True)
-    # bert_model = AutoModelForMaskedLM.from_pretrained("bert-base-uncased")
     for name, parameter in bert_model.named_parameters():
         parameter.requires_grad = True
     if config['embedding'] == 'standard':

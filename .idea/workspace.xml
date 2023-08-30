@@ -2,8 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="71938756-4a9f-4dff-8746-84a762b75e02" name="Changes" comment="debug running time">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/models/pitt.py" beforeDir="false" afterPath="$PROJECT_DIR$/models/pitt.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/train_pitt_bert.py" beforeDir="false" afterPath="$PROJECT_DIR$/train_pitt_bert.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/utils.py" beforeDir="false" afterPath="$PROJECT_DIR$/utils.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -220,21 +221,7 @@
       <workItem from="1693265792090" duration="12000" />
       <workItem from="1693266057802" duration="2518000" />
       <workItem from="1693295849102" duration="3914000" />
-      <workItem from="1693357452225" duration="7397000" />
-    </task>
-    <task id="LOCAL-00013" summary="retry bert with embedding_linear(500,100)">
-      <created>1692798724233</created>
-      <option name="number" value="00013" />
-      <option name="presentableId" value="LOCAL-00013" />
-      <option name="project" value="LOCAL" />
-      <updated>1692798724233</updated>
-    </task>
-    <task id="LOCAL-00014" summary="retry bert with embedding_linear(500,100)">
-      <created>1692803682020</created>
-      <option name="number" value="00014" />
-      <option name="presentableId" value="LOCAL-00014" />
-      <option name="project" value="LOCAL" />
-      <updated>1692803682020</updated>
+      <workItem from="1693357452225" duration="7841000" />
     </task>
     <task id="LOCAL-00015" summary="try last_hidden_state for pitt bert">
       <created>1692803870604</created>
@@ -565,7 +552,21 @@
       <option name="project" value="LOCAL" />
       <updated>1693363975293</updated>
     </task>
-    <option name="localTasksCounter" value="62" />
+    <task id="LOCAL-00062" summary="debug running time">
+      <created>1693366810507</created>
+      <option name="number" value="00062" />
+      <option name="presentableId" value="LOCAL-00062" />
+      <option name="project" value="LOCAL" />
+      <updated>1693366810507</updated>
+    </task>
+    <task id="LOCAL-00063" summary="debug running time">
+      <created>1693366927958</created>
+      <option name="number" value="00063" />
+      <option name="presentableId" value="LOCAL-00063" />
+      <option name="project" value="LOCAL" />
+      <updated>1693366927958</updated>
+    </task>
+    <option name="localTasksCounter" value="64" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -662,7 +663,7 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/train_pitt_bert.py</url>
-          <line>505</line>
+          <line>504</line>
           <option name="timeStamp" value="139" />
         </line-breakpoint>
       </breakpoints>

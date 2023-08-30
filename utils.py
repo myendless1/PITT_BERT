@@ -168,6 +168,8 @@ from transformers import BertTokenizer
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 device = 'cpu'
 
+MODEL_PATH = 'models/BERT/bert-base-uncased'
+
 
 class TransformerOperatorDataset(Dataset):
     def __init__(self, f, filename,
@@ -207,7 +209,7 @@ class TransformerOperatorDataset(Dataset):
         self.ssl = ssl
         self.forcing = forcing
 
-        self.tokenizer = BertTokenizer.from_pretrained('bert-base-uncased')
+        self.tokenizer = BertTokenizer.from_pretrained(MODEL_PATH)
 
         # Extract list of seeds
         print("\nSEED: {}".format(seed))
@@ -683,8 +685,7 @@ class TransformerOperatorDatasetBert(Dataset):
         self.ssl = ssl
         self.forcing = forcing
 
-        self.tokenizer = BertTokenizer.from_pretrained('models/BERT/bert-base-uncased')
-        # self.tokenizer = AutoTokenizer.from_pretrained("bert-base-uncased")
+        self.tokenizer = BertTokenizer.from_pretrained(MODEL_PATH)
 
 
         # Extract list of seeds
