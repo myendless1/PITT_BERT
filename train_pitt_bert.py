@@ -654,9 +654,9 @@ if __name__ == '__main__':
     train_args = config['args']
     # file = open("loss_compare.log", "w")
     for batch_size in [
-        32,
+        # 32,
         # 64,
-        # 128
+        128
     ]:
         for lr in [
             # 0.001,
