@@ -217,14 +217,7 @@
       <workItem from="1693265792090" duration="12000" />
       <workItem from="1693266057802" duration="2518000" />
       <workItem from="1693295849102" duration="3914000" />
-      <workItem from="1693357452225" duration="2122000" />
-    </task>
-    <task id="LOCAL-00001" summary="using bert tiny&#10;hidden dimension=128">
-      <created>1692628211491</created>
-      <option name="number" value="00001" />
-      <option name="presentableId" value="LOCAL-00001" />
-      <option name="project" value="LOCAL" />
-      <updated>1692628211491</updated>
+      <workItem from="1693357452225" duration="2566000" />
     </task>
     <task id="LOCAL-00002" summary="use raw datafile provided as data to train">
       <created>1692669921173</created>
@@ -562,7 +555,14 @@
       <option name="project" value="LOCAL" />
       <updated>1693359573007</updated>
     </task>
-    <option name="localTasksCounter" value="50" />
+    <task id="LOCAL-00050" summary="debug running time">
+      <created>1693359859510</created>
+      <option name="number" value="00050" />
+      <option name="presentableId" value="LOCAL-00050" />
+      <option name="project" value="LOCAL" />
+      <updated>1693359859511</updated>
+    </task>
+    <option name="localTasksCounter" value="51" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
