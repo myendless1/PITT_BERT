@@ -524,7 +524,7 @@ def run_training(config, prefix):
             lrs.append(optimizer.state_dict()['param_groups'][0]['lr'])
 
             backward_time = time.time()
-            print(f"loss_time={backward_time - loss_time}")
+            print(f"back_time={backward_time - loss_time}")
 
             train_loss += loss.item()
             if (bn == 0):
@@ -683,8 +683,8 @@ if __name__ == '__main__':
                     # frames for each equation) thus 900 data in heat, burgers and KdV respectively. Training rate =
                     # 0.6 thus total training set size is 1620 when num_samples=10.
                     for num_samples in [
-                        10,
-                        # 100,
+                        # 10,
+                        100,
                         # 1000
                     ]:
                         prefix = train_args['flnm'] + "_" + train_args['data_name'].split("_")[0] + "_" + train_args[
