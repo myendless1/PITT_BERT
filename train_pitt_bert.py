@@ -514,17 +514,17 @@ def run_training(config, prefix):
             loss = loss_fn(y_pred, y)
 
             loss_time = time.time()
-            print(f"loss_time={loss_time - pred_time}")
 
             # Backward pass: compute gradient of the loss with respect to model
             # parameters.
             optimizer.zero_grad()
+            print(f"loss_time={loss_time - pred_time}")
             loss.backward()
+            print(f"back_time={backward_time - loss_time}")
             optimizer.step()
             lrs.append(optimizer.state_dict()['param_groups'][0]['lr'])
 
             backward_time = time.time()
-            print(f"back_time={backward_time - loss_time}")
 
             train_loss += loss.item()
             if (bn == 0):
