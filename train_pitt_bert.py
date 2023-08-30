@@ -152,7 +152,8 @@ def get_transformer(model_name, neural_operator, config):
                                                           neural_operator=neural_operator).to(device=device)
     return transformer
 
-#TODO abandon this method
+
+# TODO abandon this method
 def get_transformer_tuning(model_name, neural_operator, config):
     global transformer
     model_config = BertConfig.from_pretrained('models/BERT/bert-base-uncased')
@@ -506,8 +507,14 @@ def run_training(config, prefix):
                                  t.to(device=device), device=device)
             y = y[..., 0].to(device=device)  # .cuda()
 
+            pred_time = time.time()
+            print(f"pred_time={pred_time - start}")
+
             # Compute the loss.
             loss = loss_fn(y_pred, y)
+
+            loss_time = time.time()
+            print(f"loss_time={loss_time - pred_time}")
 
             # Backward pass: compute gradient of the loss with respect to model
             # parameters.
@@ -515,6 +522,9 @@ def run_training(config, prefix):
             loss.backward()
             optimizer.step()
             lrs.append(optimizer.state_dict()['param_groups'][0]['lr'])
+
+            backward_time = time.time()
+            print(f"loss_time={backward_time - loss_time}")
 
             train_loss += loss.item()
             if (bn == 0):
@@ -642,7 +652,7 @@ if __name__ == '__main__':
 
     # Get arguments and get rid of unnecessary ones
     train_args = config['args']
-    file = open("loss_compare.log", "w")
+    # file = open("loss_compare.log", "w")
     for batch_size in [
         32,
         # 64,
@@ -673,9 +683,9 @@ if __name__ == '__main__':
                     # frames for each equation) thus 900 data in heat, burgers and KdV respectively. Training rate =
                     # 0.6 thus total training set size is 1620 when num_samples=10.
                     for num_samples in [
-                        # 10,
+                        10,
                         # 100,
-                        1000
+                        # 1000
                     ]:
                         prefix = train_args['flnm'] + "_" + train_args['data_name'].split("_")[0] + "_" + train_args[
                             'train_style'] + "_" + \
@@ -709,9 +719,9 @@ if __name__ == '__main__':
                             train_args['seed'] = seed
                             val_loss += run_training(train_args, prefix)
                         val_loss /= train_args['num_seeds']
-                        file.write(
-                            f"flnm:{train_args['flnm']},data_name:{train_args['data_name']},num_samples:{num_samples},"
-                            f"batch_size:{batch_size},learning_rate:{lr},weight_decay:{train_args['weight_decay']},"
-                            f"dropout:{train_args['dropout']}")
-                        file.write(f"loss:{val_loss}")
-                        file.flush()
+                        # file.write(
+                        #     f"flnm:{train_args['flnm']},data_name:{train_args['data_name']},num_samples:{num_samples},"
+                        #     f"batch_size:{batch_size},learning_rate:{lr},weight_decay:{train_args['weight_decay']},"
+                        #     f"dropout:{train_args['dropout']}")
+                        # file.write(f"loss:{val_loss}")
+                        # file.flush()
