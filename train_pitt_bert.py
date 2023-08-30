@@ -503,8 +503,8 @@ def run_training(config, prefix):
         for bn, (x0, y, grid, tokens, t) in enumerate(train_loader):
 
             start = time.time()
-            y_pred = transformer(grid.to(device=device), tokens.to(device=device), x0.to(device=device),
-                                 t.to(device=device), device=device)
+            y_pred = transformer(grid.clone().detach().to(device=device), tokens.clone().detach().to(device=device), x0.clone().detach().to(device=device),
+                                 t.clone().detach().to(device=device), device=device)
             y = y[..., 0].to(device=device)  # .cuda()
 
             pred_time = time.time()
