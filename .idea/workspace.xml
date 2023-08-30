@@ -3,6 +3,7 @@
   <component name="ChangeListManager">
     <list default="true" id="71938756-4a9f-4dff-8746-84a762b75e02" name="Changes" comment="debug running time">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/train_pitt_bert.py" beforeDir="false" afterPath="$PROJECT_DIR$/train_pitt_bert.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -219,14 +220,7 @@
       <workItem from="1693265792090" duration="12000" />
       <workItem from="1693266057802" duration="2518000" />
       <workItem from="1693295849102" duration="3914000" />
-      <workItem from="1693357452225" duration="6264000" />
-    </task>
-    <task id="LOCAL-00012" summary="weight decay set to 1e-4">
-      <created>1692788886046</created>
-      <option name="number" value="00012" />
-      <option name="presentableId" value="LOCAL-00012" />
-      <option name="project" value="LOCAL" />
-      <updated>1692788886046</updated>
+      <workItem from="1693357452225" duration="7397000" />
     </task>
     <task id="LOCAL-00013" summary="retry bert with embedding_linear(500,100)">
       <created>1692798724233</created>
@@ -564,7 +558,14 @@
       <option name="project" value="LOCAL" />
       <updated>1693362838171</updated>
     </task>
-    <option name="localTasksCounter" value="61" />
+    <task id="LOCAL-00061" summary="debug running time">
+      <created>1693363975293</created>
+      <option name="number" value="00061" />
+      <option name="presentableId" value="LOCAL-00061" />
+      <option name="project" value="LOCAL" />
+      <updated>1693363975293</updated>
+    </task>
+    <option name="localTasksCounter" value="62" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">

@@ -508,7 +508,7 @@ def run_training(config, prefix):
             y = y[..., 0].to(device=device)  # .cuda()
 
             pred_time = time.time()
-            # print(f"pred_time={pred_time - start}")
+            print(f"pred_time={pred_time - start}")
 
             # Compute the loss.
             loss = loss_fn(y_pred, y)
@@ -519,10 +519,10 @@ def run_training(config, prefix):
             optimizer.zero_grad()
             loss.backward()
             loss_time = time.time()
-            # print(f"loss_time={loss_time - pred_time}")
+            print(f"loss_time={loss_time - pred_time}")
             optimizer.step()
             backward_time = time.time()
-            # print(f"step_time={backward_time - loss_time}")
+            print(f"step_time={backward_time - loss_time}")
             lrs.append(optimizer.state_dict()['param_groups'][0]['lr'])
 
 
